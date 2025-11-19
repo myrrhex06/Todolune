@@ -2,13 +2,31 @@ import UIKit
 
 final class ViewController: UIViewController {
     
+    // MARK: - 테이블뷰
     private let tableView = UITableView()
+    
+    // MARK: - 할 일 추가 버튼
+    private let todoPlusButton: UIButton = {
+        let btn = UIButton(type: .custom)
+        
+        let configuration = UIImage.SymbolConfiguration(pointSize: 50)
+        let image = UIImage(systemName: "plus.circle.fill", withConfiguration: configuration)
+        
+        btn.setBackgroundImage(image, for: .normal)
+        btn.tintColor = UIColor(named: "yellowColor")
+        
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        
+        return btn
+    }()
 
+    // MARK: - UI 구성
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupNavigation()
         setupTableView()
+        setupTodoPlusButton()
     }
     
     func setupNavigation(){
@@ -41,8 +59,20 @@ final class ViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
         ])
     }
+    
+    func setupTodoPlusButton(){
+        self.view.addSubview(todoPlusButton)
+        
+        NSLayoutConstraint.activate([
+            todoPlusButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+            todoPlusButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50),
+            todoPlusButton.widthAnchor.constraint(equalToConstant: 70),
+            todoPlusButton.heightAnchor.constraint(equalToConstant: 70)
+        ])
+    }
 }
 
+// MARK: - 테이블뷰 DataSource
 extension ViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
