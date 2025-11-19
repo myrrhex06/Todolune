@@ -2,7 +2,7 @@ import UIKit
 
 class TodoCell: UITableViewCell {
     
-    let isCompletedCheckbox: CheckboxButton = {
+    lazy var isCompletedCheckbox: CheckboxButton = {
         let btn = CheckboxButton(type: .custom)
 
         let configuration = UIImage.SymbolConfiguration(pointSize: 20)
@@ -15,8 +15,10 @@ class TodoCell: UITableViewCell {
         btn.toggleHandler = { isSelected in
             if isSelected{
                 btn.setBackgroundImage(checkImage, for: .normal)
+                self.toggleLabelStrikeThrough(isCompleted: isSelected)
             }else{
                 btn.setBackgroundImage(uncheckImage, for: .normal)
+                self.toggleLabelStrikeThrough(isCompleted: isSelected)
             }
         }
         
@@ -28,7 +30,8 @@ class TodoCell: UITableViewCell {
     let todoTitleLabel: UILabel = {
         let label = UILabel()
         
-        label.textColor = .white
+        label.textColor = UIColor(named: "todoTitleColor")
+        label.font = UIFont.systemFont(ofSize: 18)
         
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -38,7 +41,7 @@ class TodoCell: UITableViewCell {
     let createdAtLabel: UILabel = {
         let label = UILabel()
         
-        label.textColor = .gray
+        label.textColor = UIColor(named: "createdDateColor")
         
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -79,8 +82,24 @@ class TodoCell: UITableViewCell {
             stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20),
             
-            isCompletedCheckbox.widthAnchor.constraint(equalToConstant: 20),
-            isCompletedCheckbox.heightAnchor.constraint(equalToConstant: 20)
+            isCompletedCheckbox.widthAnchor.constraint(equalToConstant: 30),
+            isCompletedCheckbox.heightAnchor.constraint(equalToConstant: 30)
         ])
+    }
+    
+    func toggleLabelStrikeThrough(isCompleted: Bool){
+        if isCompleted{
+            todoTitleLabel.textColor = UIColor(named: "completedColor")
+            todoTitleLabel.attributedText = todoTitleLabel.text?.strikeThrough()
+            
+            createdAtLabel.textColor = UIColor(named: "completedColor")
+            createdAtLabel.attributedText = createdAtLabel.text?.strikeThrough()
+        }else{
+            todoTitleLabel.textColor = UIColor(named: "todoTitleColor")
+            todoTitleLabel.attributedText = todoTitleLabel.text?.unStrikeThrough()
+            
+            createdAtLabel.textColor = UIColor(named: "createdDateColor")
+            createdAtLabel.attributedText = createdAtLabel.text?.unStrikeThrough()
+        }
     }
 }
