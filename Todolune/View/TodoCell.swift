@@ -56,6 +56,12 @@ class TodoCell: UITableViewCell {
         stackView.alignment = .fill
         stackView.distribution = .fill
         
+        createdAtLabel.setContentHuggingPriority(.required, for: .horizontal)
+        createdAtLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        todoTitleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        todoTitleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
