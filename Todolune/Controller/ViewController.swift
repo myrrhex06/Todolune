@@ -6,16 +6,18 @@ final class ViewController: UIViewController {
     private let tableView = UITableView()
     
     // MARK: - 할 일 추가 버튼
-    private let todoPlusButton: UIButton = {
+    private lazy var todoPlusButton: UIButton = {
         let btn = UIButton(type: .custom)
         
         let configuration = UIImage.SymbolConfiguration(pointSize: 50)
         let image = UIImage(systemName: "plus.circle.fill", withConfiguration: configuration)
         
         btn.setBackgroundImage(image, for: .normal)
-        btn.tintColor = UIColor(named: "yellowColor")
+        btn.tintColor = UIColor(named: "signatureYellowColor")
         
         btn.translatesAutoresizingMaskIntoConstraints = false
+        
+        btn.addTarget(self, action: #selector(todoPlusButtonTapped), for: .touchUpInside)
         
         return btn
     }()
@@ -30,9 +32,14 @@ final class ViewController: UIViewController {
     }
     
     func setupNavigation(){
-        
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
+    
+        // UIBarButtonItem 생성 후 BackButton에 할당
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        
+        // 색상 white 설정
+        self.navigationController?.navigationBar.tintColor = .white
         
         self.title = "Todolune"
     }
@@ -70,6 +77,10 @@ final class ViewController: UIViewController {
             todoPlusButton.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
+    
+    @objc func todoPlusButtonTapped(){
+        self.navigationController?.pushViewController(TodoAddViewController(), animated: true)
+    }
 }
 
 // MARK: - 테이블뷰 DataSource
@@ -84,7 +95,7 @@ extension ViewController: UITableViewDataSource{
         
         cell.selectionStyle = .none
         cell.createdAtLabel.text = "yesterday"
-        cell.todoTitleLabel.text = "Buy milk"
+        cell.todoTitleLabel.text = "Buy Milk"
         
         return cell
     }

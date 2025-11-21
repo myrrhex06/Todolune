@@ -10,7 +10,7 @@ class TodoCell: UITableViewCell {
         let uncheckImage = UIImage(systemName: "circle", withConfiguration: configuration)
         
         btn.setBackgroundImage(uncheckImage, for: .normal)
-        btn.tintColor = UIColor(named: "yellowColor")
+        btn.tintColor = UIColor(named: "signatureYellowColor")
         
         btn.toggleHandler = { isSelected in
             if isSelected{
