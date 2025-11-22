@@ -18,6 +18,8 @@ class TodoAddView: UIView {
         textField.clipsToBounds = true
         textField.layer.cornerRadius = 8
         
+        textField.setPadding()
+        
         textField.translatesAutoresizingMaskIntoConstraints = false
         
         return textField
@@ -26,6 +28,8 @@ class TodoAddView: UIView {
     // MARK: - 할일 세부 사항(또는 메모) 텍스트 뷰
     let todoDescriptionTextView: UITextView = {
         let textView = UITextView()
+        
+        textView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         textView.backgroundColor = UIColor(named: "textFieldColor")
         
