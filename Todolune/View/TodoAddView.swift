@@ -7,13 +7,14 @@ class TodoAddView: UIView {
         let textField = UITextField()
         
         textField.backgroundColor = UIColor(named: "textFieldColor")
-        textField.placeholder = "What needs to be done?"
-        textField.setPlaceholderColor(color: .createdDate)
+        textField.text = Constant.TITLE_PLACEHOLDER
+        textField.textColor = .createdDate
+        
+        textField.font = UIFont.systemFont(ofSize: 17)
         
         textField.layer.borderColor = UIColor.gray.cgColor
         textField.layer.borderWidth = 0.3
         
-        textField.textColor = .white
         textField.clipsToBounds = true
         textField.layer.cornerRadius = 8
         
@@ -22,24 +23,25 @@ class TodoAddView: UIView {
         return textField
     }()
     
-    // MARK: - 할일 세부 사항(또는 메모) 텍스트 필드
-    private let todoDescriptionTextField: UITextField = {
-        let textField = UITextField()
+    // MARK: - 할일 세부 사항(또는 메모) 텍스트 뷰
+    let todoDescriptionTextView: UITextView = {
+        let textView = UITextView()
         
-        textField.backgroundColor = UIColor(named: "textFieldColor")
-        textField.placeholder = "Add details or notes..."
-        textField.setPlaceholderColor(color: .createdDate)
+        textView.backgroundColor = UIColor(named: "textFieldColor")
         
-        textField.layer.borderColor = UIColor.gray.cgColor
-        textField.layer.borderWidth = 0.3
+        textView.font = UIFont.systemFont(ofSize: 17)
+        textView.text = Constant.DESCRIPTION_PLACEHOLDER
+        textView.textColor = .createdDate
         
-        textField.textColor = .white
-        textField.clipsToBounds = true
-        textField.layer.cornerRadius = 8
+        textView.layer.borderColor = UIColor.gray.cgColor
+        textView.layer.borderWidth = 0.3
         
-        textField.translatesAutoresizingMaskIntoConstraints = false
+        textView.clipsToBounds = true
+        textView.layer.cornerRadius = 8
         
-        return textField
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return textView
     }()
     
     // MARK: - 제출 버튼
@@ -75,7 +77,7 @@ class TodoAddView: UIView {
         self.backgroundColor = UIColor(named: "backgroundColor")
         
         setupTodoTitleTextField()
-        setupTodoDescriptionTextField()
+        setupTodoDescriptionTextView()
         setupSubmitButton()
     }
     
@@ -90,14 +92,14 @@ class TodoAddView: UIView {
         ])
     }
     
-    func setupTodoDescriptionTextField(){
-        self.addSubview(todoDescriptionTextField)
+    func setupTodoDescriptionTextView(){
+        self.addSubview(todoDescriptionTextView)
         
         NSLayoutConstraint.activate([
-            todoDescriptionTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            todoDescriptionTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            todoDescriptionTextField.topAnchor.constraint(equalTo: todoTitleTextField.bottomAnchor, constant: 50),
-            todoDescriptionTextField.heightAnchor.constraint(equalToConstant: 150)
+            todoDescriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            todoDescriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            todoDescriptionTextView.topAnchor.constraint(equalTo: todoTitleTextField.bottomAnchor, constant: 50),
+            todoDescriptionTextView.heightAnchor.constraint(equalToConstant: 150)
         ])
     }
     
@@ -110,5 +112,13 @@ class TodoAddView: UIView {
             submitButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -90),
             submitButton.heightAnchor.constraint(equalToConstant: 60)
         ])
+    }
+    
+    func setTextViewDelegate(delegate: UITextViewDelegate){
+        todoDescriptionTextView.delegate = delegate
+    }
+    
+    func setTextFieldDelegate(delegate: UITextFieldDelegate){
+        todoTitleTextField.delegate = delegate
     }
 }
