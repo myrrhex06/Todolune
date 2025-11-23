@@ -34,11 +34,7 @@ final class ViewController: UIViewController {
     func setupNavigation(){
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
-    
-        // UIBarButtonItem 생성 후 BackButton에 할당
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        
-        // 색상 white 설정
         self.navigationController?.navigationBar.tintColor = .white
         
         self.title = "Todolune"
