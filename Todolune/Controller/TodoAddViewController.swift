@@ -43,6 +43,20 @@ extension TodoAddViewController: UITextViewDelegate{
             textView.textColor = .createdDate
         }
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let size = CGSize(width: view.frame.width, height: .infinity)
+        let estimateSize = textView.sizeThatFits(size)
+        
+        textView.constraints.forEach { constraint in
+            
+            guard estimateSize.height > 150 && estimateSize.height < 250 else { return }
+            
+            if(constraint.firstAttribute == .height){
+                constraint.constant = estimateSize.height
+            }
+        }
+    }
 }
 
 // MARK: - TextField Delegate

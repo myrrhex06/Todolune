@@ -29,7 +29,7 @@ class TodoAddView: UIView {
     let todoDescriptionTextView: UITextView = {
         let textView = UITextView()
         
-        textView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        textView.textContainerInset = UIEdgeInsets(top: 15, left: 7, bottom: 15, right: 7)
         
         textView.backgroundColor = UIColor(named: "textFieldColor")
         
@@ -42,6 +42,8 @@ class TodoAddView: UIView {
         
         textView.clipsToBounds = true
         textView.layer.cornerRadius = 8
+        
+        textView.isScrollEnabled = false
         
         textView.translatesAutoresizingMaskIntoConstraints = false
         
