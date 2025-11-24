@@ -5,6 +5,9 @@ final class ViewController: UIViewController {
     // MARK: - 테이블뷰
     private let tableView = UITableView()
     
+    // MARK: - CoreData Manager
+    private let coreDataManager = CoreDataManager.shared
+    
     // MARK: - 할 일 추가 버튼
     private lazy var todoPlusButton: UIButton = {
         let btn = UIButton(type: .custom)
@@ -27,6 +30,7 @@ final class ViewController: UIViewController {
         super.viewDidLoad()
         
         setupNavigation()
+        coreDataManager.fetchTodoList()
         setupTableView()
         setupTodoPlusButton()
     }
@@ -48,10 +52,11 @@ final class ViewController: UIViewController {
         tableView.separatorColor = .gray
         
         tableView.dataSource = self
+        tableView.delegate = self
         
         tableView.register(TodoCell.self, forCellReuseIdentifier: "TodoCell")
         
-        tableView.rowHeight = 100
+        tableView.rowHeight = 80
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -75,7 +80,10 @@ final class ViewController: UIViewController {
     }
     
     @objc func todoPlusButtonTapped(){
-        self.navigationController?.pushViewController(TodoAddViewController(), animated: true)
+        let vc = TodoAddViewController()
+        vc.delegate = self
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -83,16 +91,62 @@ final class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        guard let todoList = coreDataManager.getTodoList() else {
+            return 0
+        }
+        
+        return todoList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoCell
         
+        guard let todoList = coreDataManager.getTodoList() else { return cell }
+        
+        let todo = todoList[indexPath.row]
+        
         cell.selectionStyle = .none
-        cell.createdAtLabel.text = "yesterday"
-        cell.todoTitleLabel.text = "Buy Milk"
+        cell.createdAtLabel.text = DateFormatterUtil.dateFormatter.string(from: todo.createdDate!)
+        cell.todoTitleLabel.text = todo.todoTitle
         
         return cell
+    }
+}
+
+// MARK: - 테이블뷰 Delegate
+extension ViewController: UITableViewDelegate{
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteButton = UIContextualAction(style: .destructive, title: nil) { _, _, success in
+            print("\(indexPath.row) 삭제 버튼 클릭")
+            
+            let todos = self.coreDataManager.getTodoList()
+            guard let todos = todos else { return }
+            
+            let todo = todos[indexPath.row]
+            
+            self.coreDataManager.deleteTodo(uuid: todo.todoId!)
+            self.coreDataManager.fetchTodoList()
+            
+            self.tableView.beginUpdates()
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+            self.tableView.endUpdates()
+            
+            success(true)
+        }
+        
+        deleteButton.image = UIImage(systemName: "trash")
+        
+        return UISwipeActionsConfiguration(actions: [deleteButton])
+    }
+}
+
+// MARK: - TodoAddViewController Delegate
+extension ViewController: TodoAddViewControllerDelegate{
+    
+    func saveSuccessTodo() {
+        coreDataManager.fetchTodoList()
+        tableView.reloadData()
     }
 }
