@@ -1,9 +1,14 @@
 import UIKit
 
-class TodoAddViewController: UIViewController {
+final class TodoAddViewController: UIViewController {
 
     let todoAddView = TodoAddView()
     
+    let coreDataManager = CoreDataManager.shared
+    
+    var delegate: TodoAddViewControllerDelegate?
+    
+    // MARK: - UI 구성
     override func loadView() {
         self.view = todoAddView
     }
@@ -11,9 +16,14 @@ class TodoAddViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupTodoAddView()
+        setupNavigation()
+    }
+    
+    func setupTodoAddView(){
         todoAddView.setTextFieldDelegate(delegate: self)
         todoAddView.setTextViewDelegate(delegate: self)
-        setupNavigation()
+        todoAddView.setSubmitButtonTarget(target: self, selector: #selector(submitButtonTapped))
     }
     
     func setupNavigation(){
@@ -25,6 +35,41 @@ class TodoAddViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
+    @objc func submitButtonTapped(){
+        
+        guard let title = todoAddView.getTodoTitle(), title != Constant.TITLE_PLACEHOLDER else {
+            
+            let alert = UIAlertController(title: "Message", message: "Enter a title", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            
+            alert.addAction(okAction)
+            
+            present(alert, animated: true)
+            
+            return
+        }
+        
+        guard let description = todoAddView.getTodoDescription(), description != Constant.DESCRIPTION_PLACEHOLDER else {
+            
+            let alert = UIAlertController(title: "Message", message: "Enter a description", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default)
+
+            alert.addAction(okAction)
+            
+            present(alert, animated: true)
+            
+            return
+        }
+        
+        coreDataManager.createTodo(title: title, description: description)
+        
+        delegate?.saveSuccessTodo()
+        
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
 }
 
 // MARK: - TextView Delegate
