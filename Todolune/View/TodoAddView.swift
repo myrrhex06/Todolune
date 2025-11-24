@@ -26,7 +26,7 @@ class TodoAddView: UIView {
     }()
     
     // MARK: - 할일 세부 사항(또는 메모) 텍스트 뷰
-    let todoDescriptionTextView: UITextView = {
+    private let todoDescriptionTextView: UITextView = {
         let textView = UITextView()
         
         textView.textContainerInset = UIEdgeInsets(top: 15, left: 7, bottom: 15, right: 7)
@@ -126,5 +126,17 @@ class TodoAddView: UIView {
     
     func setTextFieldDelegate(delegate: UITextFieldDelegate){
         todoTitleTextField.delegate = delegate
+    }
+    
+    func setSubmitButtonTarget(target: Any?, selector: Selector){
+        submitButton.addTarget(target, action: selector, for: .touchUpInside)
+    }
+    
+    func getTodoTitle() -> String?{
+        return todoTitleTextField.text
+    }
+    
+    func getTodoDescription() -> String?{
+        return todoDescriptionTextView.text
     }
 }
