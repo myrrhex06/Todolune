@@ -18,4 +18,10 @@ class TodoDetailViewController: UIViewController {
         self.navigationItem.largeTitleDisplayMode = .never
         self.title = "Task Detail"
     }
+    
+    func setTodo(todo: Todo?){
+        print("TodoDetailViewController : \(todo)")
+        detailView.setTodo(todo: todo)
+    }
+    
 }

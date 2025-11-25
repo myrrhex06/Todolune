@@ -144,6 +144,11 @@ extension ViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = TodoDetailViewController()
         
+        guard let todoList = coreDataManager.getTodoList() else { return }
+        let todo = todoList[indexPath.row]
+        
+        vc.setTodo(todo: todo)
+        
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
