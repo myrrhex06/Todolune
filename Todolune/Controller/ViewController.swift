@@ -140,6 +140,12 @@ extension ViewController: UITableViewDelegate{
         
         return UISwipeActionsConfiguration(actions: [deleteButton])
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = TodoDetailViewController()
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 // MARK: - TodoAddViewController Delegate
