@@ -90,16 +90,19 @@ extension TodoAddViewController: UITextViewDelegate{
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        let size = CGSize(width: view.frame.width, height: .infinity)
-        let estimateSize = textView.sizeThatFits(size)
         
-        textView.constraints.forEach { constraint in
+        guard let text = textView.text else { return }
+        
+        let count = text.count
+        
+        print("count : \(count)")
+        
+        if count > Constant.TODO_DESCRIPTION_MAX_LENGTH {
+            print("if문 호출")
+            let prefix = String(text.prefix(Constant.TODO_DESCRIPTION_MAX_LENGTH))
+            print("prefix : \(prefix)")
             
-            guard estimateSize.height > 150 && estimateSize.height < 250 else { return }
-            
-            if(constraint.firstAttribute == .height){
-                constraint.constant = estimateSize.height
-            }
+            textView.text = prefix
         }
     }
 }

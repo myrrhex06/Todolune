@@ -105,7 +105,7 @@ class TodoAddView: UIView {
             todoDescriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             todoDescriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             todoDescriptionTextView.topAnchor.constraint(equalTo: todoTitleTextField.bottomAnchor, constant: 50),
-            todoDescriptionTextView.heightAnchor.constraint(equalToConstant: 150)
+            todoDescriptionTextView.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
     
