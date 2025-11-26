@@ -20,7 +20,6 @@ class TodoDetailViewController: UIViewController {
     }
     
     func setTodo(todo: Todo?){
-        print("TodoDetailViewController : \(todo)")
         detailView.setTodo(todo: todo)
     }
     
