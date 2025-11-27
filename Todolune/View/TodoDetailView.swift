@@ -36,8 +36,8 @@ class TodoDetailView: UIView {
         return label
     }()
     
-    private let todoDescriptionLabel: UILabel = {
-        let label = UILabel()
+    private let todoDescriptionLabel: UIVerticalAlignLabel = {
+        let label = UIVerticalAlignLabel()
         
         label.textColor = .white
         label.numberOfLines = 0
@@ -93,9 +93,12 @@ class TodoDetailView: UIView {
             createdDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             createdDateLabel.topAnchor.constraint(equalTo: todoTitleLabel.bottomAnchor, constant: 20),
             
+            displayDescriptionLabel.heightAnchor.constraint(equalToConstant: 30),
+            
             stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            stackView.topAnchor.constraint(equalTo: self.createdDateLabel.bottomAnchor, constant: 50)
+            stackView.topAnchor.constraint(equalTo: self.createdDateLabel.bottomAnchor, constant: 40),
+            stackView.heightAnchor.constraint(equalToConstant: 330)
         ])
     }
     
