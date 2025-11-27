@@ -50,6 +50,25 @@ class TodoAddView: UIView {
         return textView
     }()
     
+    // MARK: - 할일 세부 사항 최대 입력 가능 글자수 표시 Label
+    private let displayDescriptionCountLabel: UILabel = {
+        let label = UILabel()
+        
+        label.text = "0/\(Constant.TODO_DESCRIPTION_MAX_LENGTH)"
+        
+        label.textColor = .createdDate
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private var descriptionCount: Int?{
+        didSet{
+            updateDescriptionCountLabel()
+        }
+    }
+    
     // MARK: - 제출 버튼
     private let submitButton: UIButton = {
         let btn = UIButton()
@@ -85,6 +104,7 @@ class TodoAddView: UIView {
         setupTodoTitleTextField()
         setupTodoDescriptionTextView()
         setupSubmitButton()
+        setupDisplayDescriptionCountLabel()
     }
     
     func setupTodoTitleTextField(){
@@ -107,6 +127,16 @@ class TodoAddView: UIView {
             todoDescriptionTextView.topAnchor.constraint(equalTo: todoTitleTextField.bottomAnchor, constant: 50),
             todoDescriptionTextView.heightAnchor.constraint(equalToConstant: 300)
         ])
+    }
+    
+    func setupDisplayDescriptionCountLabel(){
+        self.addSubview(displayDescriptionCountLabel)
+        
+        NSLayoutConstraint.activate([
+            displayDescriptionCountLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            displayDescriptionCountLabel.bottomAnchor.constraint(equalTo: self.todoDescriptionTextView.topAnchor, constant: -10)
+        ])
+        
     }
     
     func setupSubmitButton(){
@@ -138,5 +168,13 @@ class TodoAddView: UIView {
     
     func getTodoDescription() -> String?{
         return todoDescriptionTextView.text
+    }
+    
+    func setDescriptionCount(count: Int?){
+        descriptionCount = count
+    }
+    
+    func updateDescriptionCountLabel(){
+        displayDescriptionCountLabel.text = "\(descriptionCount ?? 0)/\(Constant.TODO_DESCRIPTION_MAX_LENGTH)"
     }
 }

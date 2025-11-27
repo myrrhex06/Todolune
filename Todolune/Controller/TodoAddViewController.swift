@@ -95,15 +95,13 @@ extension TodoAddViewController: UITextViewDelegate{
         
         let count = text.count
         
-        print("count : \(count)")
-        
         if count > Constant.TODO_DESCRIPTION_MAX_LENGTH {
-            print("if문 호출")
             let prefix = String(text.prefix(Constant.TODO_DESCRIPTION_MAX_LENGTH))
-            print("prefix : \(prefix)")
             
             textView.text = prefix
         }
+        
+        todoAddView.setDescriptionCount(count: textView.text.count)
     }
 }
 
