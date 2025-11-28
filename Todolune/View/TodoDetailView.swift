@@ -2,6 +2,7 @@ import UIKit
 
 class TodoDetailView: UIView {
     
+    // MARK: - 할일 제목 표시
     private let todoTitleLabel: UILabel = {
         let label = UILabel()
         
@@ -15,6 +16,7 @@ class TodoDetailView: UIView {
         return label
     }()
     
+    // MARK: - 생성일시 표시
     private let createdDateLabel: UILabel = {
         let label = UILabel()
         
@@ -25,6 +27,7 @@ class TodoDetailView: UIView {
         return label
     }()
     
+    // MARK: - Description 문구 표시
     private let displayDescriptionLabel: UILabel = {
         let label = UILabel()
         
@@ -36,6 +39,7 @@ class TodoDetailView: UIView {
         return label
     }()
     
+    // MARK: - 할일 세부사항 표시
     private let todoDescriptionLabel: UIVerticalAlignLabel = {
         let label = UIVerticalAlignLabel()
         
@@ -47,7 +51,8 @@ class TodoDetailView: UIView {
         return label
     }()
     
-    private lazy var stackView: UIStackView = {
+    // MARK: - 할일 텍스트 StackView
+    private lazy var descriptionStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [displayDescriptionLabel, todoDescriptionLabel])
         
         stackView.axis = .vertical
@@ -68,6 +73,63 @@ class TodoDetailView: UIView {
         return stackView
     }()
     
+    // MARK: - 완료 CheckBox
+    private lazy var completedButton: CheckboxButton = {
+        let btn = CheckboxButton(type: .custom)
+
+        let configuration = UIImage.SymbolConfiguration(pointSize: 25)
+        let checkImage = UIImage(systemName: "checkmark.circle.fill", withConfiguration: configuration)
+        let uncheckImage = UIImage(systemName: "circle", withConfiguration: configuration)
+        
+        btn.setImage(uncheckImage, for: .normal)
+        btn.tintColor = UIColor(named: "signatureYellowColor")
+        btn.backgroundColor = .textField
+        
+        btn.clipsToBounds = true
+        btn.layer.cornerRadius = 10
+        
+        
+        btn.toggleHandler = { isSelected in
+            if isSelected{
+                btn.setImage(checkImage, for: .normal)
+            }else{
+                btn.setImage(uncheckImage, for: .normal)
+            }
+        }
+        
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        
+        return btn
+    }()
+    
+    // MARK: - Completed 문구 표시
+    private let completedLabel: UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        label.text = "Completed"
+        
+        return label
+    }()
+    
+    // MARK: - 완료 버튼, 레이블 StackView
+    private lazy var completedStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [completedButton, completedLabel])
+        
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
+    
+    // MARK: - UI 구성
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -79,7 +141,8 @@ class TodoDetailView: UIView {
         
         self.addSubview(todoTitleLabel)
         self.addSubview(createdDateLabel)
-        self.addSubview(stackView)
+        self.addSubview(completedStackView)
+        self.addSubview(descriptionStackView)
         
         setupAutoLayout()
     }
@@ -91,14 +154,22 @@ class TodoDetailView: UIView {
             todoTitleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 120),
             
             createdDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            createdDateLabel.topAnchor.constraint(equalTo: todoTitleLabel.bottomAnchor, constant: 20),
+            createdDateLabel.topAnchor.constraint(equalTo: todoTitleLabel.bottomAnchor, constant: 10),
+            
+            completedStackView.topAnchor.constraint(equalTo: createdDateLabel.bottomAnchor, constant: 30),
+            completedStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            completedStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            completedStackView.heightAnchor.constraint(equalToConstant: 50),
+            
+            completedButton.widthAnchor.constraint(equalToConstant: 40),
+            completedButton.heightAnchor.constraint(equalToConstant: 40),
             
             displayDescriptionLabel.heightAnchor.constraint(equalToConstant: 30),
             
-            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            stackView.topAnchor.constraint(equalTo: self.createdDateLabel.bottomAnchor, constant: 40),
-            stackView.heightAnchor.constraint(equalToConstant: 330)
+            descriptionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            descriptionStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            descriptionStackView.topAnchor.constraint(equalTo: completedStackView.bottomAnchor, constant: 30),
+            descriptionStackView.heightAnchor.constraint(equalToConstant: 330)
         ])
     }
     
