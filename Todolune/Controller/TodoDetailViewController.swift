@@ -1,8 +1,11 @@
 import UIKit
 
-class TodoDetailViewController: UIViewController {
+final class TodoDetailViewController: UIViewController {
 
+    // MARK: - 할일 세부 사항 확인 뷰
     private let detailView = TodoDetailView()
+    
+    // MARK: - UI 구성
     
     override func loadView() {
         self.view = detailView

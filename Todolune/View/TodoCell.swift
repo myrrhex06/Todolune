@@ -2,7 +2,8 @@ import UIKit
 
 class TodoCell: UITableViewCell {
     
-    lazy var isCompletedCheckbox: CheckboxButton = {
+    // MARK: - 완료 여부 체크박스
+    private lazy var isCompletedCheckbox: CheckboxButton = {
         let btn = CheckboxButton(type: .custom)
 
         let configuration = UIImage.SymbolConfiguration(pointSize: 20)
@@ -27,7 +28,8 @@ class TodoCell: UITableViewCell {
         return btn
     }()
     
-    let todoTitleLabel: UILabel = {
+    // MARK: - 할일 제목 표시
+    private let todoTitleLabel: UILabel = {
         let label = UILabel()
         
         label.textColor = UIColor(named: "todoTitleColor")
@@ -38,7 +40,8 @@ class TodoCell: UITableViewCell {
         return label
     }()
     
-    let createdAtLabel: UILabel = {
+    // MARK: - 생성 일시 표시
+    private let createdAtLabel: UILabel = {
         let label = UILabel()
         
         label.textColor = UIColor(named: "createdDateColor")
@@ -48,6 +51,7 @@ class TodoCell: UITableViewCell {
         return label
     }()
     
+    // MARK: - 구성 요소 StackView
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [isCompletedCheckbox, todoTitleLabel, createdAtLabel])
         
@@ -66,6 +70,8 @@ class TodoCell: UITableViewCell {
         
         return stackView
     }()
+    
+    // MARK: - UI 구성
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
