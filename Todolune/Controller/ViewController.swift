@@ -106,8 +106,8 @@ extension ViewController: UITableViewDataSource{
         let todo = todoList[indexPath.row]
         
         cell.selectionStyle = .none
-        cell.createdAtLabel.text = DateFormatterUtil.dateFormatter.string(from: todo.createdDate!)
-        cell.todoTitleLabel.text = todo.todoTitle
+        cell.setCreatedDateLabelText(text: DateFormatterUtil.dateFormatter.string(from: todo.createdDate ?? Date()))
+        cell.setTodoTitleLabelText(text: todo.todoTitle)
         
         return cell
     }
@@ -119,7 +119,6 @@ extension ViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteButton = UIContextualAction(style: .destructive, title: nil) { _, _, success in
-            print("\(indexPath.row) 삭제 버튼 클릭")
             
             let todos = self.coreDataManager.getTodoList()
             guard let todos = todos else { return }

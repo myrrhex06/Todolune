@@ -41,7 +41,7 @@ class TodoCell: UITableViewCell {
     }()
     
     // MARK: - 생성 일시 표시
-    private let createdAtLabel: UILabel = {
+    private let createdDateLabel: UILabel = {
         let label = UILabel()
         
         label.textColor = UIColor(named: "createdDateColor")
@@ -53,15 +53,15 @@ class TodoCell: UITableViewCell {
     
     // MARK: - 구성 요소 StackView
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [isCompletedCheckbox, todoTitleLabel, createdAtLabel])
+        let stackView = UIStackView(arrangedSubviews: [isCompletedCheckbox, todoTitleLabel, createdDateLabel])
         
         stackView.axis = .horizontal
         stackView.spacing = 15
         stackView.alignment = .fill
         stackView.distribution = .fill
         
-        createdAtLabel.setContentHuggingPriority(.required, for: .horizontal)
-        createdAtLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        createdDateLabel.setContentHuggingPriority(.required, for: .horizontal)
+        createdDateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         todoTitleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         todoTitleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -76,17 +76,20 @@ class TodoCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.backgroundColor = UIColor(named: "backgroundColor")
-        
-        setupStackView()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
     
-    func setupStackView(){
+    func setupUI(){
+        self.contentView.backgroundColor = UIColor(named: "backgroundColor")
         
+        setupStackView()
+    }
+    
+    func setupStackView(){
         self.contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
@@ -104,14 +107,22 @@ class TodoCell: UITableViewCell {
             todoTitleLabel.textColor = UIColor(named: "completedColor")
             todoTitleLabel.attributedText = todoTitleLabel.text?.strikeThrough()
             
-            createdAtLabel.textColor = UIColor(named: "completedColor")
-            createdAtLabel.attributedText = createdAtLabel.text?.strikeThrough()
+            createdDateLabel.textColor = UIColor(named: "completedColor")
+            createdDateLabel.attributedText = createdDateLabel.text?.strikeThrough()
         }else{
             todoTitleLabel.textColor = UIColor(named: "todoTitleColor")
             todoTitleLabel.attributedText = todoTitleLabel.text?.unStrikeThrough()
             
-            createdAtLabel.textColor = UIColor(named: "createdDateColor")
-            createdAtLabel.attributedText = createdAtLabel.text?.unStrikeThrough()
+            createdDateLabel.textColor = UIColor(named: "createdDateColor")
+            createdDateLabel.attributedText = createdDateLabel.text?.unStrikeThrough()
         }
+    }
+    
+    func setCreatedDateLabelText(text: String?){
+        createdDateLabel.text = text
+    }
+    
+    func setTodoTitleLabelText(text: String?){
+        todoTitleLabel.text = text
     }
 }
