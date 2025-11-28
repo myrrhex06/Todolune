@@ -139,31 +139,49 @@ class TodoDetailView: UIView {
     func setupUI(){
         self.backgroundColor = .background
         
-        self.addSubview(todoTitleLabel)
-        self.addSubview(createdDateLabel)
-        self.addSubview(completedStackView)
-        self.addSubview(descriptionStackView)
-        
-        setupAutoLayout()
+        setupTodoTitleLabel()
+        setupCreatedDateLabel()
+        setupCompletedStackView()
+        setupDescriptionStackView()
     }
     
-    func setupAutoLayout(){
+    func setupTodoTitleLabel(){
+        self.addSubview(todoTitleLabel)
+        
         NSLayoutConstraint.activate([
             todoTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             todoTitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            todoTitleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 120),
-            
+            todoTitleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 120)
+        ])
+    }
+    
+    func setupCreatedDateLabel(){
+        self.addSubview(createdDateLabel)
+        
+        NSLayoutConstraint.activate([
             createdDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            createdDateLabel.topAnchor.constraint(equalTo: todoTitleLabel.bottomAnchor, constant: 10),
+            createdDateLabel.topAnchor.constraint(equalTo: todoTitleLabel.bottomAnchor, constant: 10)
+        ])
+    }
+    
+    func setupCompletedStackView(){
+        self.addSubview(completedStackView)
+        
+        NSLayoutConstraint.activate([
+            completedButton.widthAnchor.constraint(equalToConstant: 40),
+            completedButton.heightAnchor.constraint(equalToConstant: 40),
             
             completedStackView.topAnchor.constraint(equalTo: createdDateLabel.bottomAnchor, constant: 30),
             completedStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             completedStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            completedStackView.heightAnchor.constraint(equalToConstant: 50),
-            
-            completedButton.widthAnchor.constraint(equalToConstant: 40),
-            completedButton.heightAnchor.constraint(equalToConstant: 40),
-            
+            completedStackView.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    func setupDescriptionStackView(){
+        self.addSubview(descriptionStackView)
+        
+        NSLayoutConstraint.activate([
             displayDescriptionLabel.heightAnchor.constraint(equalToConstant: 30),
             
             descriptionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
