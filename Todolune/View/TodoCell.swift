@@ -3,9 +3,9 @@ import UIKit
 class TodoCell: UITableViewCell {
     
     // MARK: - 완료 여부 체크박스
-    private lazy var isCompletedCheckbox: CheckboxButton = {
-        let btn = CheckboxButton(type: .custom)
-
+    private lazy var isCompletedCheckbox: UIButton = {
+        let btn = UIButton(type: .custom)
+        
         let configuration = UIImage.SymbolConfiguration(pointSize: 20)
         let checkImage = UIImage(systemName: "checkmark.circle.fill", withConfiguration: configuration)
         let uncheckImage = UIImage(systemName: "circle", withConfiguration: configuration)
@@ -13,15 +13,7 @@ class TodoCell: UITableViewCell {
         btn.setBackgroundImage(uncheckImage, for: .normal)
         btn.tintColor = UIColor(named: "signatureYellowColor")
         
-        btn.toggleHandler = { isSelected in
-            if isSelected{
-                btn.setBackgroundImage(checkImage, for: .normal)
-                self.toggleLabelStrikeThrough(isCompleted: isSelected)
-            }else{
-                btn.setBackgroundImage(uncheckImage, for: .normal)
-                self.toggleLabelStrikeThrough(isCompleted: isSelected)
-            }
-        }
+        btn.addTarget(self, action: #selector(isCompletedCheckboxTapped), for: .touchUpInside)
         
         btn.translatesAutoresizingMaskIntoConstraints = false
         
@@ -71,6 +63,10 @@ class TodoCell: UITableViewCell {
         return stackView
     }()
     
+    private var todo: Todo?
+    
+    var delegate: TodoCellDelegate?
+    
     // MARK: - UI 구성
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -83,13 +79,13 @@ class TodoCell: UITableViewCell {
         fatalError()
     }
     
-    func setupUI(){
+    private func setupUI(){
         self.contentView.backgroundColor = UIColor(named: "backgroundColor")
         
         setupStackView()
     }
     
-    func setupStackView(){
+    private func setupStackView(){
         self.contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
@@ -102,7 +98,10 @@ class TodoCell: UITableViewCell {
         ])
     }
     
-    func toggleLabelStrikeThrough(isCompleted: Bool){
+    func toggleLabelStrikeThrough(isCompleted: Bool?){
+        
+        guard let isCompleted = isCompleted else { return }
+        
         if isCompleted{
             todoTitleLabel.textColor = UIColor(named: "completedColor")
             todoTitleLabel.attributedText = todoTitleLabel.text?.strikeThrough()
@@ -118,11 +117,41 @@ class TodoCell: UITableViewCell {
         }
     }
     
-    func setCreatedDateLabelText(text: String?){
+    private func setCreatedDateLabelText(text: String?){
         createdDateLabel.text = text
     }
     
-    func setTodoTitleLabelText(text: String?){
+    private func setTodoTitleLabelText(text: String?){
         todoTitleLabel.text = text
+    }
+    
+    private func setIsCompletedCheckbox(isOn: Bool){
+        let configuration = UIImage.SymbolConfiguration(pointSize: 20)
+        let checkImage = UIImage(systemName: "checkmark.circle.fill", withConfiguration: configuration)
+        let uncheckImage = UIImage(systemName: "circle", withConfiguration: configuration)
+        
+        if isOn{
+            isCompletedCheckbox.setBackgroundImage(checkImage, for: .normal)
+            self.toggleLabelStrikeThrough(isCompleted: isOn)
+        }else{
+            isCompletedCheckbox.setBackgroundImage(uncheckImage, for: .normal)
+            self.toggleLabelStrikeThrough(isCompleted: isOn)
+        }
+    }
+    
+    func setTodoData(todo: Todo){
+        self.todo = todo
+        
+        setTodoTitleLabelText(text: todo.todoTitle)
+        setCreatedDateLabelText(text: DateFormatterUtil.dateFormatter.string(from: todo.createdDate ?? Date()))
+        setIsCompletedCheckbox(isOn: todo.isCompleted)
+    }
+    
+    func getTodoData() -> Todo?{
+        return self.todo
+    }
+    
+    @objc private func isCompletedCheckboxTapped(){
+        delegate?.completedButtonTapped(cell: self)
     }
 }
