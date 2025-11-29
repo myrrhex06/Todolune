@@ -110,8 +110,10 @@ extension ViewController: UITableViewDataSource{
         let todo = todoList[indexPath.row]
         
         cell.selectionStyle = .none
-        cell.setCreatedDateLabelText(text: DateFormatterUtil.dateFormatter.string(from: todo.createdDate ?? Date()))
-        cell.setTodoTitleLabelText(text: todo.todoTitle)
+        
+        cell.setTodoData(todo: todo)
+        
+        cell.delegate = self
         
         return cell
     }
@@ -162,5 +164,21 @@ extension ViewController: TodoAddViewControllerDelegate{
     func saveSuccessTodo() {
         coreDataManager.fetchTodoList()
         tableView.reloadData()
+    }
+}
+
+// MARK: - TodoCell Delegate
+extension ViewController: TodoCellDelegate{
+    
+    func completedButtonTapped(cell: TodoCell) {
+        guard let todo = cell.getTodoData() else { return }
+        
+        todo.isCompleted.toggle()
+        
+        coreDataManager.updateTodo(parameterTodo: todo)
+        coreDataManager.fetchTodoList()
+        
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        tableView.reloadRows(at: [indexPath], with: .none)
     }
 }
