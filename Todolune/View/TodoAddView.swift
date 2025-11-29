@@ -181,15 +181,25 @@ class TodoAddView: UIView {
     }
     
     func keyboardWillShow(){
+        guard todoTitleTopConstraint.constant == 150 else {
+            return
+        }
+
         todoTitleTopConstraint.constant -= 30
         
         UIView.animate(withDuration: 0.3) {
             
             self.layoutIfNeeded()
         }
+        
     }
     
     func keyboardWillHide(){
+        
+        guard todoTitleTopConstraint.constant == 120 else {
+            return
+        }
+        
         todoTitleTopConstraint.constant += 30
         
         UIView.animate(withDuration: 0.3) {
