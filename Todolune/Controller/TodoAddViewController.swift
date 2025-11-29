@@ -19,6 +19,10 @@ final class TodoAddViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+    }
+    
+    func setupUI(){
         setupTodoAddView()
         setupNavigation()
         setupNotificationCenter()

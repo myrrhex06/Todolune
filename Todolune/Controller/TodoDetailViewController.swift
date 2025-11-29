@@ -14,6 +14,10 @@ final class TodoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+    }
+    
+    func setupUI(){
         setNavigation()
     }
     

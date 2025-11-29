@@ -29,6 +29,10 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+    }
+    
+    func setupUI(){
         setupNavigation()
         coreDataManager.fetchTodoList()
         setupTableView()
