@@ -87,6 +87,8 @@ class TodoAddView: UIView {
         return btn
     }()
     
+    private lazy var todoTitleTopConstraint: NSLayoutConstraint = todoTitleTextField.topAnchor.constraint(equalTo: self.topAnchor, constant: 150)
+    
     // MARK: - UI 구성
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -113,7 +115,7 @@ class TodoAddView: UIView {
         NSLayoutConstraint.activate([
             todoTitleTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             todoTitleTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            todoTitleTextField.topAnchor.constraint(equalTo: self.topAnchor, constant: 150),
+            todoTitleTopConstraint,
             todoTitleTextField.heightAnchor.constraint(equalToConstant: 80)
         ])
     }
@@ -125,7 +127,7 @@ class TodoAddView: UIView {
             todoDescriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             todoDescriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             todoDescriptionTextView.topAnchor.constraint(equalTo: todoTitleTextField.bottomAnchor, constant: 50),
-            todoDescriptionTextView.heightAnchor.constraint(equalToConstant: 300)
+            todoDescriptionTextView.heightAnchor.constraint(equalToConstant: 270)
         ])
     }
     
@@ -176,5 +178,23 @@ class TodoAddView: UIView {
     
     func updateDescriptionCountLabel(){
         displayDescriptionCountLabel.text = "\(descriptionCount ?? 0)/\(Constant.TODO_DESCRIPTION_MAX_LENGTH)"
+    }
+    
+    func keyboardWillShow(){
+        todoTitleTopConstraint.constant -= 30
+        
+        UIView.animate(withDuration: 0.3) {
+            
+            self.layoutIfNeeded()
+        }
+    }
+    
+    func keyboardWillHide(){
+        todoTitleTopConstraint.constant += 30
+        
+        UIView.animate(withDuration: 0.3) {
+            
+            self.layoutIfNeeded()
+        }
     }
 }

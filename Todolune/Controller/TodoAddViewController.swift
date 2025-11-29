@@ -80,11 +80,11 @@ final class TodoAddViewController: UIViewController {
     }
     
     @objc func keyboardWillShow(){
-        print(#function)
+        todoAddView.keyboardWillShow()
     }
     
     @objc func keyboardWillHide(){
-        print(#function)
+        todoAddView.keyboardWillHide()
     }
     
 }
