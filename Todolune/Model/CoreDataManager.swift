@@ -60,7 +60,10 @@ final class CoreDataManager{
         }
     }
     
-    func updateTodo(uuid: UUID, parameterTodo: Todo){
+    func updateTodo(parameterTodo: Todo){
+        
+        guard let uuid = parameterTodo.todoId else { return }
+        
         let request = Todo.fetchRequest()
         request.predicate = NSPredicate(format: "%K == %@", "todoId", uuid as CVarArg)
         
