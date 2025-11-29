@@ -20,8 +20,12 @@ final class CoreDataManager{
     func fetchTodoList() {
         let request = Todo.fetchRequest()
         
-        let data = try? context.fetch(request)
-        todoList = data
+        do{
+            let data = try context.fetch(request)
+            todoList = data
+        }catch{
+            print("에러 발생 \(error)")
+        }
     }
     
     func createTodo(title: String, description: String) {
@@ -33,19 +37,46 @@ final class CoreDataManager{
         todo.todoDescription = description
         todo.todoTitle = title
         
-        try? context.save()
+        do{
+            try context.save()
+        }catch{
+            print("에러 발생 \(error)")
+        }
     }
     
     func deleteTodo(uuid: UUID){
         let request = Todo.fetchRequest()
         request.predicate = NSPredicate(format: "%K == %@", "todoId", uuid as CVarArg)
         
-        let todos = try? context.fetch(request)
-        
-        guard let todo = todos?.first else { return }
+        do{
+            let todos = try context.fetch(request)
+            
+            guard let todo = todos.first else { return }
 
-        context.delete(todo)
-        try? context.save()
+            context.delete(todo)
+            try context.save()
+        }catch{
+            print("에러 발생 \(error)")
+        }
+    }
+    
+    func updateTodo(uuid: UUID, parameterTodo: Todo){
+        let request = Todo.fetchRequest()
+        request.predicate = NSPredicate(format: "%K == %@", "todoId", uuid as CVarArg)
+        
+        do{
+            let todos = try context.fetch(request)
+            guard let todo = todos.first else { return }
+            
+            todo.isCompleted = parameterTodo.isCompleted
+            todo.todoDescription = parameterTodo.todoDescription
+            todo.todoTitle = parameterTodo.todoTitle
+            
+            try context.save()
+            
+        }catch{
+            print("에러 발생 \(error)")
+        }
     }
     
     func getTodoList() -> [Todo]? {
