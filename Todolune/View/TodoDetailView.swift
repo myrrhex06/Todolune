@@ -73,9 +73,9 @@ class TodoDetailView: UIView {
         return stackView
     }()
     
-    // MARK: - 완료 CheckBox
-    private lazy var completedButton: CheckboxButton = {
-        let btn = CheckboxButton(type: .custom)
+    // MARK: - 완료 표시
+    private lazy var completedButton: UIButton = {
+        let btn = UIButton(type: .custom)
 
         let configuration = UIImage.SymbolConfiguration(pointSize: 25)
         let checkImage = UIImage(systemName: "checkmark.circle.fill", withConfiguration: configuration)
@@ -88,14 +88,7 @@ class TodoDetailView: UIView {
         btn.clipsToBounds = true
         btn.layer.cornerRadius = 10
         
-        
-        btn.toggleHandler = { isSelected in
-            if isSelected{
-                btn.setImage(checkImage, for: .normal)
-            }else{
-                btn.setImage(uncheckImage, for: .normal)
-            }
-        }
+        btn.isUserInteractionEnabled = false
         
         btn.translatesAutoresizingMaskIntoConstraints = false
         
@@ -136,7 +129,7 @@ class TodoDetailView: UIView {
         setupUI()
     }
     
-    func setupUI(){
+    private func setupUI(){
         self.backgroundColor = .background
         
         setupTodoTitleLabel()
@@ -145,7 +138,7 @@ class TodoDetailView: UIView {
         setupDescriptionStackView()
     }
     
-    func setupTodoTitleLabel(){
+    private func setupTodoTitleLabel(){
         self.addSubview(todoTitleLabel)
         
         NSLayoutConstraint.activate([
@@ -155,7 +148,7 @@ class TodoDetailView: UIView {
         ])
     }
     
-    func setupCreatedDateLabel(){
+    private func setupCreatedDateLabel(){
         self.addSubview(createdDateLabel)
         
         NSLayoutConstraint.activate([
@@ -164,7 +157,7 @@ class TodoDetailView: UIView {
         ])
     }
     
-    func setupCompletedStackView(){
+    private func setupCompletedStackView(){
         self.addSubview(completedStackView)
         
         NSLayoutConstraint.activate([
@@ -178,7 +171,7 @@ class TodoDetailView: UIView {
         ])
     }
     
-    func setupDescriptionStackView(){
+    private func setupDescriptionStackView(){
         self.addSubview(descriptionStackView)
         
         NSLayoutConstraint.activate([
@@ -199,5 +192,17 @@ class TodoDetailView: UIView {
         todoTitleLabel.text = todo?.todoTitle
         createdDateLabel.text = DateFormatterUtil.dateFormatter.string(from: todo?.createdDate ?? Date())
         todoDescriptionLabel.text = todo?.todoDescription
+        
+        guard let todo = todo else { return }
+        
+        let configuration = UIImage.SymbolConfiguration(pointSize: 25)
+        let checkImage = UIImage(systemName: "checkmark.circle.fill", withConfiguration: configuration)
+        let uncheckImage = UIImage(systemName: "circle", withConfiguration: configuration)
+        
+        if todo.isCompleted{
+            completedButton.setImage(checkImage, for: .normal)
+        }else{
+            completedButton.setImage(uncheckImage, for: .normal)
+        }
     }
 }
