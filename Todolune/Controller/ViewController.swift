@@ -96,7 +96,14 @@ extension ViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let todoList = coreDataManager.getTodoList() else {
+            tableView.setupEmptyView(message: "Your task list is empty.")
             return 0
+        }
+        
+        if todoList.count == 0 {
+            tableView.setupEmptyView(message: "Your task list is empty.")
+        }else{
+            tableView.removeEmptyView()
         }
         
         return todoList.count
