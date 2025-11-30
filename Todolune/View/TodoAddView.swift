@@ -87,7 +87,7 @@ class TodoAddView: UIView {
         return btn
     }()
     
-    private lazy var todoTitleTopConstraint: NSLayoutConstraint = todoTitleTextField.topAnchor.constraint(equalTo: self.topAnchor, constant: 150)
+    private lazy var todoTitleTopConstraint: NSLayoutConstraint = todoTitleTextField.topAnchor.constraint(equalTo: self.topAnchor, constant: 140)
     
     // MARK: - UI 구성
     override init(frame: CGRect) {
@@ -181,7 +181,7 @@ class TodoAddView: UIView {
     }
     
     func keyboardWillShow(){
-        guard todoTitleTopConstraint.constant == 150 else {
+        guard todoTitleTopConstraint.constant == 140 else {
             return
         }
 
@@ -196,7 +196,7 @@ class TodoAddView: UIView {
     
     func keyboardWillHide(){
         
-        guard todoTitleTopConstraint.constant == 120 else {
+        guard todoTitleTopConstraint.constant == 110 else {
             return
         }
         
