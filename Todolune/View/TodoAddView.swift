@@ -2,6 +2,19 @@ import UIKit
 
 class TodoAddView: UIView {
     
+    // MARK: - 할일 제목 최대 입력 가능 글자수 표시 Label
+    private let displayTitleCountLabel: UILabel = {
+        let label = UILabel()
+        
+        label.text = "0/\(Constant.TODO_TITLE_MAX_LENGTH)"
+        
+        label.textColor = .createdDate
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     // MARK: - 할일 제목 텍스트 필드
     private let todoTitleTextField: UITextField = {
         let textField = UITextField()
@@ -23,6 +36,20 @@ class TodoAddView: UIView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         
         return textField
+    }()
+    
+    // MARK: - 할일 제목 StackView
+    private lazy var todoTitleStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [displayTitleCountLabel, todoTitleTextField])
+        
+        stackView.axis = .vertical
+        stackView.spacing = 3
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
     }()
     
     // MARK: - 할일 세부 사항(또는 메모) 텍스트 뷰
@@ -63,6 +90,20 @@ class TodoAddView: UIView {
         return label
     }()
     
+    // MARK: - 할일 세부 사항 StackView
+    private lazy var todoDescriptionStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [displayDescriptionCountLabel, todoDescriptionTextView])
+        
+        stackView.axis = .vertical
+        stackView.spacing = 3
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
+    
     private var descriptionCount: Int?{
         didSet{
             updateDescriptionCountLabel()
@@ -87,7 +128,7 @@ class TodoAddView: UIView {
         return btn
     }()
     
-    private lazy var todoTitleTopConstraint: NSLayoutConstraint = todoTitleTextField.topAnchor.constraint(equalTo: self.topAnchor, constant: 140)
+    private lazy var todoTitleStackViewTopConstraint: NSLayoutConstraint = todoTitleStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 110)
     
     // MARK: - UI 구성
     override init(frame: CGRect) {
@@ -103,42 +144,34 @@ class TodoAddView: UIView {
     func setupUI(){
         self.backgroundColor = UIColor(named: "backgroundColor")
         
-        setupTodoTitleTextField()
-        setupTodoDescriptionTextView()
+        setupTodoTitleStackView()
+        setupTodoDescriptionStackView()
         setupSubmitButton()
-        setupDisplayDescriptionCountLabel()
     }
     
-    func setupTodoTitleTextField(){
-        self.addSubview(todoTitleTextField)
+    func setupTodoTitleStackView(){
+        self.addSubview(todoTitleStackView)
         
         NSLayoutConstraint.activate([
-            todoTitleTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            todoTitleTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            todoTitleTopConstraint,
-            todoTitleTextField.heightAnchor.constraint(equalToConstant: 80)
+            todoTitleStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            todoTitleStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            todoTitleStackViewTopConstraint,
+            todoTitleStackView.heightAnchor.constraint(equalToConstant: 110),
+            todoTitleTextField.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
-    func setupTodoDescriptionTextView(){
-        self.addSubview(todoDescriptionTextView)
+    func setupTodoDescriptionStackView(){
+        self.addSubview(todoDescriptionStackView)
         
         NSLayoutConstraint.activate([
-            todoDescriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            todoDescriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            todoDescriptionTextView.topAnchor.constraint(equalTo: todoTitleTextField.bottomAnchor, constant: 50),
+            todoDescriptionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            todoDescriptionStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            todoDescriptionStackView.topAnchor.constraint(equalTo: todoTitleStackView.bottomAnchor, constant: 20),
+            todoDescriptionStackView.heightAnchor.constraint(equalToConstant: 300),
+            
             todoDescriptionTextView.heightAnchor.constraint(equalToConstant: 270)
         ])
-    }
-    
-    func setupDisplayDescriptionCountLabel(){
-        self.addSubview(displayDescriptionCountLabel)
-        
-        NSLayoutConstraint.activate([
-            displayDescriptionCountLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            displayDescriptionCountLabel.bottomAnchor.constraint(equalTo: self.todoDescriptionTextView.topAnchor, constant: -10)
-        ])
-        
     }
     
     func setupSubmitButton(){
@@ -181,11 +214,11 @@ class TodoAddView: UIView {
     }
     
     func keyboardWillShow(){
-        guard todoTitleTopConstraint.constant == 140 else {
+        guard todoTitleStackViewTopConstraint.constant == 110 else {
             return
         }
 
-        todoTitleTopConstraint.constant -= 30
+        todoTitleStackViewTopConstraint.constant -= 20
         
         UIView.animate(withDuration: 0.3) {
             
@@ -196,11 +229,11 @@ class TodoAddView: UIView {
     
     func keyboardWillHide(){
         
-        guard todoTitleTopConstraint.constant == 110 else {
+        guard todoTitleStackViewTopConstraint.constant == 90 else {
             return
         }
         
-        todoTitleTopConstraint.constant += 30
+        todoTitleStackViewTopConstraint.constant += 20
         
         UIView.animate(withDuration: 0.3) {
             
