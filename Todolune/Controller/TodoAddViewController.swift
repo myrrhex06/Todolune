@@ -144,4 +144,28 @@ extension TodoAddViewController: UITextFieldDelegate{
             return
         }
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else { return false }
+        
+        print("range : \(range.length)")
+        let length = text.utf16.count + string.utf16.count - range.length
+        
+        todoAddView.setTodoCount(count: length)
+        
+        if let char = string.cString(using: .utf8){
+            let isBackspace = strcmp(char, "\\b")
+            
+            if isBackspace == -92 {
+                return true
+            }
+        }
+        
+        if length >= Constant.TODO_TITLE_MAX_LENGTH{
+            return false
+        }
+        
+        return true
+    }
 }

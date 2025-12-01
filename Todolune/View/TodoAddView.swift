@@ -110,6 +110,12 @@ class TodoAddView: UIView {
         }
     }
     
+    private var titleCount: Int?{
+        didSet{
+            updateTitleCountLabel()
+        }
+    }
+    
     // MARK: - 제출 버튼
     private let submitButton: UIButton = {
         let btn = UIButton()
@@ -209,8 +215,16 @@ class TodoAddView: UIView {
         descriptionCount = count
     }
     
+    func setTodoCount(count: Int?){
+        titleCount = count
+    }
+    
     func updateDescriptionCountLabel(){
         displayDescriptionCountLabel.text = "\(descriptionCount ?? 0)/\(Constant.TODO_DESCRIPTION_MAX_LENGTH)"
+    }
+    
+    func updateTitleCountLabel(){
+        displayTitleCountLabel.text = "\(titleCount ?? 0)/\(Constant.TODO_TITLE_MAX_LENGTH)"
     }
     
     func keyboardWillShow(){
