@@ -8,4 +8,5 @@ final class Constant{
     public static let DESCRIPTION_PLACEHOLDER = "Add details or notes..."
     
     public static let TODO_DESCRIPTION_MAX_LENGTH = 300
+    public static let TODO_TITLE_MAX_LENGTH = 50
 }
