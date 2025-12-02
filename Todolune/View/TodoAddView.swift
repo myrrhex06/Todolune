@@ -70,8 +70,6 @@ class TodoAddView: UIView {
         textView.clipsToBounds = true
         textView.layer.cornerRadius = 8
         
-        textView.isScrollEnabled = false
-        
         textView.translatesAutoresizingMaskIntoConstraints = false
         
         return textView
