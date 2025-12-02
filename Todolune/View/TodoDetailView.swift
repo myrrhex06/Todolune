@@ -179,8 +179,7 @@ class TodoDetailView: UIView {
             
             descriptionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             descriptionStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            descriptionStackView.topAnchor.constraint(equalTo: completedStackView.bottomAnchor, constant: 30),
-            descriptionStackView.heightAnchor.constraint(equalToConstant: 330)
+            descriptionStackView.topAnchor.constraint(equalTo: completedStackView.bottomAnchor, constant: 30)
         ])
     }
     
