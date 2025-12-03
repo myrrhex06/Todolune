@@ -132,8 +132,6 @@ class TodoAddView: UIView {
         return btn
     }()
     
-    private lazy var todoTitleStackViewTopConstraint: NSLayoutConstraint = todoTitleStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 110)
-    
     // MARK: - UI 구성
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -148,9 +146,35 @@ class TodoAddView: UIView {
     func setupUI(){
         self.backgroundColor = UIColor(named: "backgroundColor")
         
-        setupTodoTitleStackView()
-        setupTodoDescriptionStackView()
-        setupSubmitButton()
+        if isIphoneSe() {
+            
+            setupIphoneSeTodoTitleStackView()
+            setupIphoneSeTodoDescriptionStackView()
+            setupIphoneSeSubmitButton()
+        }else {
+            
+            setupTodoTitleStackView()
+            setupTodoDescriptionStackView()
+            setupSubmitButton()
+        }
+    }
+    
+    func isIphoneSe() -> Bool{
+        let deviceName = UIDeviceUtil.getName()
+        
+        return deviceName.contains("SE")
+    }
+    
+    func setupIphoneSeTodoTitleStackView(){
+        self.addSubview(todoTitleStackView)
+        
+        NSLayoutConstraint.activate([
+            todoTitleStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            todoTitleStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            todoTitleStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 70),
+            
+            todoTitleTextField.heightAnchor.constraint(equalToConstant: 60)
+        ])
     }
     
     func setupTodoTitleStackView(){
@@ -159,9 +183,21 @@ class TodoAddView: UIView {
         NSLayoutConstraint.activate([
             todoTitleStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             todoTitleStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            todoTitleStackViewTopConstraint,
-            todoTitleStackView.heightAnchor.constraint(equalToConstant: 110),
+            todoTitleStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 100),
+
             todoTitleTextField.heightAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+    
+    func setupIphoneSeTodoDescriptionStackView(){
+        self.addSubview(todoDescriptionStackView)
+        
+        NSLayoutConstraint.activate([
+            todoDescriptionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            todoDescriptionStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            todoDescriptionStackView.topAnchor.constraint(equalTo: todoTitleStackView.bottomAnchor, constant: 20),
+            
+            todoDescriptionTextView.heightAnchor.constraint(equalToConstant: 160)
         ])
     }
     
@@ -172,9 +208,19 @@ class TodoAddView: UIView {
             todoDescriptionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             todoDescriptionStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             todoDescriptionStackView.topAnchor.constraint(equalTo: todoTitleStackView.bottomAnchor, constant: 20),
-            todoDescriptionStackView.heightAnchor.constraint(equalToConstant: 300),
             
-            todoDescriptionTextView.heightAnchor.constraint(equalToConstant: 270)
+            todoDescriptionTextView.heightAnchor.constraint(equalToConstant: 220)
+        ])
+    }
+    
+    func setupIphoneSeSubmitButton(){
+        self.addSubview(submitButton)
+        
+        NSLayoutConstraint.activate([
+            submitButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            submitButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            submitButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -40),
+            submitButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
@@ -184,7 +230,7 @@ class TodoAddView: UIView {
         NSLayoutConstraint.activate([
             submitButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             submitButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
-            submitButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -90),
+            submitButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -50),
             submitButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
@@ -223,33 +269,5 @@ class TodoAddView: UIView {
     
     func updateTitleCountLabel(){
         displayTitleCountLabel.text = "\(titleCount ?? 0)/\(Constant.TODO_TITLE_MAX_LENGTH)"
-    }
-    
-    func keyboardWillShow(){
-        guard todoTitleStackViewTopConstraint.constant == 110 else {
-            return
-        }
-
-        todoTitleStackViewTopConstraint.constant -= 20
-        
-        UIView.animate(withDuration: 0.3) {
-            
-            self.layoutIfNeeded()
-        }
-        
-    }
-    
-    func keyboardWillHide(){
-        
-        guard todoTitleStackViewTopConstraint.constant == 90 else {
-            return
-        }
-        
-        todoTitleStackViewTopConstraint.constant += 20
-        
-        UIView.animate(withDuration: 0.3) {
-            
-            self.layoutIfNeeded()
-        }
     }
 }

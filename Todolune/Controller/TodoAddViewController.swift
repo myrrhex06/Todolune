@@ -25,7 +25,6 @@ final class TodoAddViewController: UIViewController {
     func setupUI(){
         setupTodoAddView()
         setupNavigation()
-        setupNotificationCenter()
     }
     
     func setupTodoAddView(){
@@ -38,12 +37,6 @@ final class TodoAddViewController: UIViewController {
         self.navigationItem.largeTitleDisplayMode = .never
         
         self.title = "New Task"
-    }
-    
-    func setupNotificationCenter(){
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -82,15 +75,6 @@ final class TodoAddViewController: UIViewController {
         
         self.navigationController?.popViewController(animated: true)
     }
-    
-    @objc func keyboardWillShow(){
-        todoAddView.keyboardWillShow()
-    }
-    
-    @objc func keyboardWillHide(){
-        todoAddView.keyboardWillHide()
-    }
-    
 }
 
 // MARK: - TextView Delegate
