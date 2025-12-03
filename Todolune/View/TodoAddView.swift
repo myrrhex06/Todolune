@@ -146,7 +146,7 @@ class TodoAddView: UIView {
     func setupUI(){
         self.backgroundColor = UIColor(named: "backgroundColor")
         
-        if isIphoneSe() {
+        if UIDeviceUtil.isIphoneSe() {
             
             setupIphoneSeTodoTitleStackView()
             setupIphoneSeTodoDescriptionStackView()
@@ -157,12 +157,6 @@ class TodoAddView: UIView {
             setupTodoDescriptionStackView()
             setupSubmitButton()
         }
-    }
-    
-    func isIphoneSe() -> Bool{
-        let deviceName = UIDeviceUtil.getName()
-        
-        return deviceName.contains("SE")
     }
     
     func setupIphoneSeTodoTitleStackView(){

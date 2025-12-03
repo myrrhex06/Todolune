@@ -4,13 +4,9 @@ class UIDeviceUtil{
     
     private init() {}
     
-    public static func getName() -> String{
+    public static func isIphoneSe() -> Bool{
+        let deviceName = UIDevice.current.name
         
-        return UIDevice.current.name
-    }
-    
-    public static func getUuid() -> String{
-        
-        return UIDevice.current.identifierForVendor?.uuidString ?? ""
+        return deviceName.contains("SE")
     }
 }
