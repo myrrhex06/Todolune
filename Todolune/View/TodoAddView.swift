@@ -146,6 +146,10 @@ class TodoAddView: UIView {
     func setupUI(){
         self.backgroundColor = UIColor(named: "backgroundColor")
         
+        self.addSubview(todoDescriptionStackView)
+        self.addSubview(todoTitleStackView)
+        self.addSubview(submitButton)
+        
         if UIDeviceUtil.isIphoneSe() {
             
             setupIphoneSeTodoTitleStackView()
@@ -160,7 +164,6 @@ class TodoAddView: UIView {
     }
     
     func setupIphoneSeTodoTitleStackView(){
-        self.addSubview(todoTitleStackView)
         
         NSLayoutConstraint.activate([
             todoTitleStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -172,7 +175,6 @@ class TodoAddView: UIView {
     }
     
     func setupTodoTitleStackView(){
-        self.addSubview(todoTitleStackView)
         
         NSLayoutConstraint.activate([
             todoTitleStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -184,7 +186,6 @@ class TodoAddView: UIView {
     }
     
     func setupIphoneSeTodoDescriptionStackView(){
-        self.addSubview(todoDescriptionStackView)
         
         NSLayoutConstraint.activate([
             todoDescriptionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -196,7 +197,7 @@ class TodoAddView: UIView {
     }
     
     func setupTodoDescriptionStackView(){
-        self.addSubview(todoDescriptionStackView)
+        
         
         NSLayoutConstraint.activate([
             todoDescriptionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -208,7 +209,7 @@ class TodoAddView: UIView {
     }
     
     func setupIphoneSeSubmitButton(){
-        self.addSubview(submitButton)
+        
         
         NSLayoutConstraint.activate([
             submitButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -219,7 +220,6 @@ class TodoAddView: UIView {
     }
     
     func setupSubmitButton(){
-        self.addSubview(submitButton)
         
         NSLayoutConstraint.activate([
             submitButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),

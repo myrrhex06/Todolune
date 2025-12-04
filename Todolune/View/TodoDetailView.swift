@@ -132,12 +132,19 @@ class TodoDetailView: UIView {
     private func setupUI(){
         self.backgroundColor = .background
         
+        self.addSubview(todoTitleLabel)
+        self.addSubview(createdDateLabel)
+        self.addSubview(completedStackView)
+        self.addSubview(descriptionStackView)
+        
         if UIDeviceUtil.isIphoneSe(){
+            
             setupIphoneSeTodoTitleLabel()
             setupIphoneSeCreatedDateLabel()
             setupIphoneSeCompletedStackView()
             setupIphoneSeDescriptionStackView()
         }else{
+            
             setupTodoTitleLabel()
             setupCreatedDateLabel()
             setupCompletedStackView()
@@ -146,8 +153,6 @@ class TodoDetailView: UIView {
     }
     
     private func setupIphoneSeTodoTitleLabel(){
-        self.addSubview(todoTitleLabel)
-        
         NSLayoutConstraint.activate([
             todoTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             todoTitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
@@ -156,8 +161,6 @@ class TodoDetailView: UIView {
     }
     
     private func setupTodoTitleLabel(){
-        self.addSubview(todoTitleLabel)
-        
         NSLayoutConstraint.activate([
             todoTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             todoTitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
@@ -166,8 +169,6 @@ class TodoDetailView: UIView {
     }
     
     private func setupIphoneSeCreatedDateLabel(){
-        self.addSubview(createdDateLabel)
-        
         NSLayoutConstraint.activate([
             createdDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             createdDateLabel.topAnchor.constraint(equalTo: todoTitleLabel.bottomAnchor, constant: 10)
@@ -175,8 +176,6 @@ class TodoDetailView: UIView {
     }
     
     private func setupCreatedDateLabel(){
-        self.addSubview(createdDateLabel)
-        
         NSLayoutConstraint.activate([
             createdDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             createdDateLabel.topAnchor.constraint(equalTo: todoTitleLabel.bottomAnchor, constant: 10)
@@ -184,8 +183,6 @@ class TodoDetailView: UIView {
     }
     
     private func setupIphoneSeCompletedStackView(){
-        self.addSubview(completedStackView)
-        
         NSLayoutConstraint.activate([
             completedButton.widthAnchor.constraint(equalToConstant: 40),
             completedButton.heightAnchor.constraint(equalToConstant: 40),
@@ -193,13 +190,10 @@ class TodoDetailView: UIView {
             completedStackView.topAnchor.constraint(equalTo: createdDateLabel.bottomAnchor, constant: 30),
             completedStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             completedStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            completedStackView.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
     private func setupCompletedStackView(){
-        self.addSubview(completedStackView)
-        
         NSLayoutConstraint.activate([
             completedButton.widthAnchor.constraint(equalToConstant: 40),
             completedButton.heightAnchor.constraint(equalToConstant: 40),
@@ -207,13 +201,10 @@ class TodoDetailView: UIView {
             completedStackView.topAnchor.constraint(equalTo: createdDateLabel.bottomAnchor, constant: 20),
             completedStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             completedStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            completedStackView.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
     private func setupIphoneSeDescriptionStackView(){
-        self.addSubview(descriptionStackView)
-        
         NSLayoutConstraint.activate([
             displayDescriptionLabel.heightAnchor.constraint(equalToConstant: 30),
             
@@ -224,8 +215,6 @@ class TodoDetailView: UIView {
     }
     
     private func setupDescriptionStackView(){
-        self.addSubview(descriptionStackView)
-        
         NSLayoutConstraint.activate([
             displayDescriptionLabel.heightAnchor.constraint(equalToConstant: 30),
             
