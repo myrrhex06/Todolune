@@ -24,10 +24,16 @@ final class TodoDetailViewController: UIViewController {
     func setNavigation(){
         self.navigationItem.largeTitleDisplayMode = .never
         self.title = "Task Detail"
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "edit", style: .done, target: self, action: #selector(touchUpEditButton))
     }
     
     func setTodo(todo: Todo?){
         detailView.setTodo(todo: todo)
+    }
+    
+    @objc func touchUpEditButton(){
+        print(#function)
     }
     
 }
