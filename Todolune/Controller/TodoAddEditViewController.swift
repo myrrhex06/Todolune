@@ -8,8 +8,13 @@ final class TodoAddViewController: UIViewController {
     // MARK: - CoreData
     private let coreDataManager = CoreDataManager.shared
     
-    // MARK: - 커스텀 Delegate
-    var delegate: TodoAddViewControllerDelegate?
+    // MARK: - Delegate
+    var addDelegate: TodoAddDelegate?
+    
+    // MARK: - Delegate
+    var editDelegate: TodoEditDelegate?
+    
+    private var todo: Todo?
     
     // MARK: - UI 구성
     override func loadView() {
@@ -24,7 +29,14 @@ final class TodoAddViewController: UIViewController {
     
     func setupUI(){
         setupTodoAddView()
-        setupNavigation()
+        
+        if todo != nil {
+            print("Edit")
+            setupEditViewNavigation()
+        }else{
+            print("Add")
+            setupAddViewNavigation()
+        }
     }
     
     func setupTodoAddView(){
@@ -33,14 +45,25 @@ final class TodoAddViewController: UIViewController {
         todoAddView.setSubmitButtonTarget(target: self, selector: #selector(submitButtonTapped))
     }
     
-    func setupNavigation(){
+    func setupAddViewNavigation(){
         self.navigationItem.largeTitleDisplayMode = .never
         
         self.title = "New Task"
     }
     
+    func setupEditViewNavigation(){
+        self.navigationItem.largeTitleDisplayMode = .never
+        
+        self.title = "Edit Task"
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    func setTodo(todo: Todo?){
+        self.todo = todo
+        todoAddView.setEditTodoData(todo: todo)
     }
     
     @objc func submitButtonTapped(){
@@ -61,7 +84,7 @@ final class TodoAddViewController: UIViewController {
             
             let alert = UIAlertController(title: "Message", message: "Enter a description", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default)
-
+            
             alert.addAction(okAction)
             
             present(alert, animated: true)
@@ -69,9 +92,27 @@ final class TodoAddViewController: UIViewController {
             return
         }
         
-        coreDataManager.createTodo(title: title, description: description)
+        print(#function)
         
-        delegate?.saveSuccessTodo()
+        if let todo = todo {
+            let title = todoAddView.getTodoTitle()
+            let description = todoAddView.getTodoDescription()
+            
+            todo.todoTitle = title
+            todo.todoDescription = description
+            
+            coreDataManager.updateTodo(parameterTodo: todo)
+            
+            editDelegate?.editSuccessTodo(todo: todo)
+            
+            print("Update 성공")
+        }else{
+            print("else문")
+            
+            coreDataManager.createTodo(title: title, description: description)
+            
+            addDelegate?.saveSuccessTodo()
+        }
         
         self.navigationController?.popViewController(animated: true)
     }
@@ -133,7 +174,6 @@ extension TodoAddViewController: UITextFieldDelegate{
         
         guard let text = textField.text else { return false }
         
-        print("range : \(range.length)")
         let length = text.utf16.count + string.utf16.count - range.length
         
         todoAddView.setTodoCount(count: length)
