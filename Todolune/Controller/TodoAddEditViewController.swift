@@ -1,6 +1,6 @@
 import UIKit
 
-final class TodoAddViewController: UIViewController {
+final class TodoAddEditViewController: UIViewController {
 
     // MARK: - 할일 추가 화면
     private let todoAddView = TodoAddView()
@@ -119,7 +119,7 @@ final class TodoAddViewController: UIViewController {
 }
 
 // MARK: - TextView Delegate
-extension TodoAddViewController: UITextViewDelegate{
+extension TodoAddEditViewController: UITextViewDelegate{
 
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == Constant.DESCRIPTION_PLACEHOLDER {
@@ -152,7 +152,7 @@ extension TodoAddViewController: UITextViewDelegate{
 }
 
 // MARK: - TextField Delegate
-extension TodoAddViewController: UITextFieldDelegate{
+extension TodoAddEditViewController: UITextFieldDelegate{
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField.text == Constant.TITLE_PLACEHOLDER {

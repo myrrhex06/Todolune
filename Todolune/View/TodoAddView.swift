@@ -198,7 +198,6 @@ class TodoAddView: UIView {
     
     func setupTodoDescriptionStackView(){
         
-        
         NSLayoutConstraint.activate([
             todoDescriptionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             todoDescriptionStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
@@ -263,5 +262,15 @@ class TodoAddView: UIView {
     
     func updateTitleCountLabel(){
         displayTitleCountLabel.text = "\(titleCount ?? 0)/\(Constant.TODO_TITLE_MAX_LENGTH)"
+    }
+    
+    func setEditTodoData(todo: Todo?){
+        todoTitleTextField.text = todo?.todoTitle
+        todoTitleTextField.textColor = .white
+        titleCount = todoTitleTextField.text?.count
+        
+        todoDescriptionTextView.text = todo?.todoDescription
+        todoDescriptionTextView.textColor = .white
+        descriptionCount = todoDescriptionTextView.text.count
     }
 }

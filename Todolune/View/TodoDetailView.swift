@@ -139,6 +139,12 @@ class TodoDetailView: UIView {
         return stackView
     }()
     
+    private var todo: Todo?{
+        didSet{
+            setupTodo()
+        }
+    }
+    
     // MARK: - UI 구성
     
     override init(frame: CGRect) {
@@ -269,11 +275,19 @@ class TodoDetailView: UIView {
     }
     
     func setTodo(todo: Todo?){
-        todoTitleLabel.text = todo?.todoTitle
-        createdDateLabel.text = DateFormatterUtil.dateFormatter.string(from: todo?.createdDate ?? Date())
-        todoDescriptionLabel.text = todo?.todoDescription
-        
+        self.todo = todo
+    }
+    
+    func getTodo() -> Todo?{
+        return todo
+    }
+    
+    func setupTodo(){
         guard let todo = todo else { return }
+        
+        todoTitleLabel.text = todo.todoTitle
+        createdDateLabel.text = DateFormatterUtil.dateFormatter.string(from: todo.createdDate ?? Date())
+        todoDescriptionLabel.text = todo.todoDescription
         
         let configuration = UIImage.SymbolConfiguration(pointSize: 25)
         let checkImage = UIImage(systemName: "checkmark.circle.fill", withConfiguration: configuration)

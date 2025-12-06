@@ -84,8 +84,9 @@ final class ViewController: UIViewController {
     }
     
     @objc func todoPlusButtonTapped(){
-        let vc = TodoAddViewController()
-        vc.delegate = self
+        let vc = TodoAddEditViewController()
+        vc.addDelegate = self
+        vc.editDelegate = self
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -160,15 +161,27 @@ extension ViewController: UITableViewDelegate{
         let todo = todoList[indexPath.row]
         
         vc.setTodo(todo: todo)
+        vc.editDelegate = self
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-// MARK: - TodoAddViewController Delegate
-extension ViewController: TodoAddViewControllerDelegate{
+// MARK: - TodoAddViewController Add Delegate
+extension ViewController: TodoAddDelegate{
     
     func saveSuccessTodo() {
+        print(#function)
+        coreDataManager.fetchTodoList()
+        tableView.reloadData()
+    }
+}
+
+// MARK: - TodoAddViewController Edit Delegate
+extension ViewController: TodoEditDelegate{
+    
+    func editSuccessTodo(todo: Todo) {
+        print(#function)
         coreDataManager.fetchTodoList()
         tableView.reloadData()
     }
