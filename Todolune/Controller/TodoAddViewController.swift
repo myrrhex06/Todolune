@@ -3,10 +3,10 @@ import UIKit
 final class TodoAddViewController: UIViewController {
 
     // MARK: - 할일 추가 화면
-    let todoAddView = TodoAddView()
+    private let todoAddView = TodoAddView()
     
     // MARK: - CoreData
-    let coreDataManager = CoreDataManager.shared
+    private let coreDataManager = CoreDataManager.shared
     
     // MARK: - 커스텀 Delegate
     var delegate: TodoAddViewControllerDelegate?
