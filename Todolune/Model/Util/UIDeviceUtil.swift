@@ -1,6 +1,6 @@
 import UIKit
 
-class UIDeviceUtil{
+final class UIDeviceUtil{
     
     private init() {}
     
