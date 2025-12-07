@@ -5,8 +5,8 @@ final class TodoAddEditViewController: UIViewController {
     // MARK: - 할일 추가 화면
     private let todoAddView = TodoAddView()
     
-    // MARK: - CoreData
-    private let coreDataManager = CoreDataManager.shared
+    // MARK: - Todo Manager
+    private let todoManager = TodoManager.shared
     
     // MARK: - Delegate
     var addDelegate: TodoAddDelegate?
@@ -97,13 +97,13 @@ final class TodoAddEditViewController: UIViewController {
             todo.todoTitle = title
             todo.todoDescription = description
             
-            coreDataManager.updateTodo(parameterTodo: todo)
+            todoManager.updateTodo(todo: todo)
             
             editDelegate?.editSuccessTodo(todo: todo)
             
         }else{
             
-            coreDataManager.createTodo(title: title, description: description)
+            todoManager.createTodo(title: title, description: description)
             
             addDelegate?.saveSuccessTodo()
         }
