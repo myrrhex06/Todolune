@@ -5,8 +5,6 @@ final class CoreDataManager{
     
     public static let shared = CoreDataManager()
     
-    private var todoList: [Todo]? = []
-    
     private init(){}
     
     private var context: NSManagedObjectContext{
@@ -17,7 +15,7 @@ final class CoreDataManager{
         }
     }
     
-    func fetchTodoList() {
+    func fetchTodoList() -> [Todo]?{
         let request = Todo.fetchRequest()
         let sort = NSSortDescriptor(key: "createdDate", ascending: false)
         
@@ -25,10 +23,13 @@ final class CoreDataManager{
         
         do{
             let data = try context.fetch(request)
-            todoList = data
+            
+            return data
         }catch{
             print("에러 발생 \(error)")
         }
+        
+        return nil
     }
     
     func createTodo(title: String, description: String) {
@@ -83,9 +84,5 @@ final class CoreDataManager{
         }catch{
             print("에러 발생 \(error)")
         }
-    }
-    
-    func getTodoList() -> [Todo]? {
-        return todoList
     }
 }
