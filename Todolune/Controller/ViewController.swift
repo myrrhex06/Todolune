@@ -5,8 +5,8 @@ final class ViewController: UIViewController {
     // MARK: - 테이블뷰
     private let tableView = UITableView()
     
-    // MARK: - CoreData Manager
-    private let coreDataManager = CoreDataManager.shared
+    // MARK: - Todo Manager
+    private let todoManager = TodoManager.shared
     
     // MARK: - 할 일 추가 버튼
     private lazy var todoPlusButton: UIButton = {
@@ -34,7 +34,6 @@ final class ViewController: UIViewController {
     
     func setupUI(){
         setupNavigation()
-        coreDataManager.fetchTodoList()
         setupTableView()
         setupTodoPlusButton()
     }
@@ -96,7 +95,7 @@ final class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let todoList = coreDataManager.getTodoList() else {
+        guard let todoList = todoManager.fetchTodos() else {
             tableView.setupEmptyView(message: "Your task list is empty.")
             return 0
         }
@@ -113,7 +112,7 @@ extension ViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoCell
         
-        guard let todoList = coreDataManager.getTodoList() else { return cell }
+        guard let todoList = todoManager.fetchTodos() else { return cell }
         
         let todo = todoList[indexPath.row]
         
@@ -134,13 +133,11 @@ extension ViewController: UITableViewDelegate{
         
         let deleteButton = UIContextualAction(style: .destructive, title: nil) { _, _, success in
             
-            let todos = self.coreDataManager.getTodoList()
-            guard let todos = todos else { return }
+            guard let todos = self.todoManager.fetchTodos() else { return }
             
             let todo = todos[indexPath.row]
             
-            self.coreDataManager.deleteTodo(uuid: todo.todoId!)
-            self.coreDataManager.fetchTodoList()
+            self.todoManager.deleteTodo(uuid: todo.todoId!)
             
             self.tableView.beginUpdates()
             self.tableView.deleteRows(at: [indexPath], with: .fade)
@@ -157,7 +154,7 @@ extension ViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = TodoDetailViewController()
         
-        guard let todoList = coreDataManager.getTodoList() else { return }
+        guard let todoList = todoManager.fetchTodos() else { return }
         let todo = todoList[indexPath.row]
         
         vc.setTodo(todo: todo)
@@ -171,7 +168,6 @@ extension ViewController: UITableViewDelegate{
 extension ViewController: TodoAddDelegate{
     
     func saveSuccessTodo() {
-        coreDataManager.fetchTodoList()
         tableView.reloadData()
     }
 }
@@ -180,7 +176,6 @@ extension ViewController: TodoAddDelegate{
 extension ViewController: TodoEditDelegate{
     
     func editSuccessTodo(todo: Todo) {
-        coreDataManager.fetchTodoList()
         tableView.reloadData()
     }
 }
@@ -193,8 +188,7 @@ extension ViewController: TodoCellDelegate{
         
         todo.isCompleted.toggle()
         
-        coreDataManager.updateTodo(parameterTodo: todo)
-        coreDataManager.fetchTodoList()
+        todoManager.updateTodo(todo: todo)
         
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         tableView.reloadRows(at: [indexPath], with: .none)
