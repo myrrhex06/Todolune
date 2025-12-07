@@ -171,7 +171,6 @@ extension ViewController: UITableViewDelegate{
 extension ViewController: TodoAddDelegate{
     
     func saveSuccessTodo() {
-        print(#function)
         coreDataManager.fetchTodoList()
         tableView.reloadData()
     }
@@ -181,7 +180,6 @@ extension ViewController: TodoAddDelegate{
 extension ViewController: TodoEditDelegate{
     
     func editSuccessTodo(todo: Todo) {
-        print(#function)
         coreDataManager.fetchTodoList()
         tableView.reloadData()
     }

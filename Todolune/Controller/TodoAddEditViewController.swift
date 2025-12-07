@@ -31,10 +31,8 @@ final class TodoAddEditViewController: UIViewController {
         setupTodoAddView()
         
         if todo != nil {
-            print("Edit")
             setupEditViewNavigation()
         }else{
-            print("Add")
             setupAddViewNavigation()
         }
     }
@@ -92,8 +90,6 @@ final class TodoAddEditViewController: UIViewController {
             return
         }
         
-        print(#function)
-        
         if let todo = todo {
             let title = todoAddView.getTodoTitle()
             let description = todoAddView.getTodoDescription()
@@ -105,9 +101,7 @@ final class TodoAddEditViewController: UIViewController {
             
             editDelegate?.editSuccessTodo(todo: todo)
             
-            print("Update 성공")
         }else{
-            print("else문")
             
             coreDataManager.createTodo(title: title, description: description)
             
