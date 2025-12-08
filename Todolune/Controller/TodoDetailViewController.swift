@@ -5,6 +5,9 @@ final class TodoDetailViewController: UIViewController {
     // MARK: - 할일 세부 사항 확인 뷰
     private let detailView = TodoDetailView()
     
+    // MARK: - Todo Manager
+    private let todoManager = TodoManager.shared
+    
     // MARK: - Delegate
     var editDelegate: TodoEditDelegate?
     
@@ -21,6 +24,8 @@ final class TodoDetailViewController: UIViewController {
     }
     
     func setupUI(){
+        detailView.addTarget(target: self, selector: #selector(touchUpCompletedButton))
+        
         setNavigation()
     }
     
@@ -44,6 +49,17 @@ final class TodoDetailViewController: UIViewController {
         todoEditVc.editDelegate = self
         
         self.navigationController?.pushViewController(todoEditVc, animated: true)
+    }
+    
+    @objc func touchUpCompletedButton(){
+        guard let todo = detailView.getTodo() else { return }
+        
+        todo.isCompleted.toggle()
+        detailView.setTodo(todo: todo)
+        
+        todoManager.updateTodo(todo: todo)
+        
+        editDelegate?.editSuccessTodo(todo: todo)
     }
 }
 

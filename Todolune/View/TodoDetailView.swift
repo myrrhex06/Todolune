@@ -106,8 +106,6 @@ class TodoDetailView: UIView {
         btn.clipsToBounds = true
         btn.layer.cornerRadius = 10
         
-        btn.isUserInteractionEnabled = false
-        
         btn.translatesAutoresizingMaskIntoConstraints = false
         
         return btn
@@ -280,6 +278,10 @@ class TodoDetailView: UIView {
     
     func getTodo() -> Todo?{
         return todo
+    }
+    
+    func addTarget(target: Any?, selector: Selector){
+        completedButton.addTarget(target, action: selector, for: .touchUpInside)
     }
     
     func setupTodo(){
