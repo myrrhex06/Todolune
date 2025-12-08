@@ -8,6 +8,7 @@ final class TodoDetailViewController: UIViewController {
     // MARK: - Todo Manager
     private let todoManager = TodoManager.shared
     
+    // MARK: - Todo Detail Manager
     private let todoDetailManager = TodoDetailManager.shared
     
     // MARK: - Delegate
