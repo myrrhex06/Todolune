@@ -87,6 +87,8 @@ final class ViewController: UIViewController {
         vc.addDelegate = self
         vc.editDelegate = self
         
+        vc.setMode(mode: .add)
+        
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
