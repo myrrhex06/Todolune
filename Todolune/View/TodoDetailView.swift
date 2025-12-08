@@ -137,12 +137,6 @@ class TodoDetailView: UIView {
         return stackView
     }()
     
-    private var todo: Todo?{
-        didSet{
-            setupTodo()
-        }
-    }
-    
     // MARK: - UI 구성
     
     override init(frame: CGRect) {
@@ -272,19 +266,11 @@ class TodoDetailView: UIView {
         fatalError()
     }
     
-    func setTodo(todo: Todo?){
-        self.todo = todo
-    }
-    
-    func getTodo() -> Todo?{
-        return todo
-    }
-    
     func addTarget(target: Any?, selector: Selector){
         completedButton.addTarget(target, action: selector, for: .touchUpInside)
     }
     
-    func setupTodo(){
+    func setTodoData(todo: Todo?){
         guard let todo = todo else { return }
         
         todoTitleLabel.text = todo.todoTitle

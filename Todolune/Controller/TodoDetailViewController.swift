@@ -8,6 +8,8 @@ final class TodoDetailViewController: UIViewController {
     // MARK: - Todo Manager
     private let todoManager = TodoManager.shared
     
+    private let todoDetailManager = TodoDetailManager.shared
+    
     // MARK: - Delegate
     var editDelegate: TodoEditDelegate?
     
@@ -38,26 +40,31 @@ final class TodoDetailViewController: UIViewController {
     }
     
     func setTodo(todo: Todo?){
-        detailView.setTodo(todo: todo)
+        todoDetailManager.setTodo(todo: todo)
+        detailView.setTodoData(todo: todoDetailManager.getTodo())
     }
     
     @objc func touchUpEditButton(){
         
         let todoEditVc = TodoAddEditViewController()
         
-        todoEditVc.setTodo(todo: detailView.getTodo())
+        todoEditVc.setTodo(todo: todoDetailManager.getTodo())
+        todoEditVc.setMode(mode: .edit)
+        
         todoEditVc.editDelegate = self
         
         self.navigationController?.pushViewController(todoEditVc, animated: true)
     }
     
     @objc func touchUpCompletedButton(){
-        guard let todo = detailView.getTodo() else { return }
+        guard let todo = todoDetailManager.getTodo() else { return }
         
         todo.isCompleted.toggle()
-        detailView.setTodo(todo: todo)
+        todoDetailManager.setTodo(todo: todo)
         
         todoManager.updateTodo(todo: todo)
+        
+        detailView.setTodoData(todo: todo)
         
         editDelegate?.editSuccessTodo(todo: todo)
     }
@@ -67,7 +74,8 @@ final class TodoDetailViewController: UIViewController {
 extension TodoDetailViewController: TodoEditDelegate{
     
     func editSuccessTodo(todo: Todo) {
-        detailView.setTodo(todo: todo)
+        todoDetailManager.setTodo(todo: todo)
+        detailView.setTodoData(todo: todo)
         editDelegate?.editSuccessTodo(todo: todo)
     }
 }
