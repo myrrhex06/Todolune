@@ -8,13 +8,14 @@ final class TodoAddEditViewController: UIViewController {
     // MARK: - Todo Manager
     private let todoManager = TodoManager.shared
     
+    // MARK: - Todo Add Edit Manager
+    private let todoAddEditManager = TodoAddEditManager.shared
+    
     // MARK: - Delegate
     var addDelegate: TodoAddDelegate?
     
     // MARK: - Delegate
     var editDelegate: TodoEditDelegate?
-    
-    private var todo: Todo?
     
     // MARK: - UI 구성
     override func loadView() {
@@ -27,29 +28,41 @@ final class TodoAddEditViewController: UIViewController {
         setupUI()
     }
     
-    func setupUI(){
+    func setMode(mode: AddEditMode?){
+        todoAddEditManager.setMode(mode: mode)
+    }
+    
+    func setTodo(todo: Todo?){
+        todoAddEditManager.setTodo(todo: todo)
+        todoAddView.setEditTodoData(todo: todoAddEditManager.getTodo())
+    }
+    
+    private func setupUI(){
         setupTodoAddView()
         
-        if todo != nil {
-            setupEditViewNavigation()
-        }else{
+        guard let mode = todoAddEditManager.getMode() else { return }
+        
+        switch mode{
+        case .add:
             setupAddViewNavigation()
+        case .edit:
+            setupEditViewNavigation()
         }
     }
     
-    func setupTodoAddView(){
+    private func setupTodoAddView(){
         todoAddView.setTextFieldDelegate(delegate: self)
         todoAddView.setTextViewDelegate(delegate: self)
         todoAddView.setSubmitButtonTarget(target: self, selector: #selector(submitButtonTapped))
     }
     
-    func setupAddViewNavigation(){
+    private func setupAddViewNavigation(){
         self.navigationItem.largeTitleDisplayMode = .never
         
         self.title = "New Task"
     }
     
-    func setupEditViewNavigation(){
+    private func setupEditViewNavigation(){
         self.navigationItem.largeTitleDisplayMode = .never
         
         self.title = "Edit Task"
@@ -57,11 +70,6 @@ final class TodoAddEditViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
-    }
-    
-    func setTodo(todo: Todo?){
-        self.todo = todo
-        todoAddView.setEditTodoData(todo: todo)
     }
     
     @objc func submitButtonTapped(){
@@ -90,25 +98,38 @@ final class TodoAddEditViewController: UIViewController {
             return
         }
         
-        if let todo = todo {
-            let title = todoAddView.getTodoTitle()
-            let description = todoAddView.getTodoDescription()
-            
-            todo.todoTitle = title
-            todo.todoDescription = description
-            
-            todoManager.updateTodo(todo: todo)
-            
-            editDelegate?.editSuccessTodo(todo: todo)
-            
-        }else{
-            
-            todoManager.createTodo(title: title, description: description)
-            
-            addDelegate?.saveSuccessTodo()
+        guard let mode = todoAddEditManager.getMode() else { return }
+        
+        switch mode{
+        case .add:
+            createTodo(title: title, description: description)
+        case .edit:
+            updateTodo()
         }
         
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func createTodo(title: String, description: String){
+        
+        todoManager.createTodo(title: title, description: description)
+        
+        addDelegate?.saveSuccessTodo()
+    }
+    
+    private func updateTodo(){
+        
+        guard let todo = todoAddEditManager.getTodo() else { return }
+        
+        let title = todoAddView.getTodoTitle()
+        let description = todoAddView.getTodoDescription()
+        
+        todo.todoTitle = title
+        todo.todoDescription = description
+        
+        todoManager.updateTodo(todo: todo)
+        
+        editDelegate?.editSuccessTodo(todo: todo)
     }
 }
 
