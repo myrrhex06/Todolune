@@ -15,8 +15,12 @@ final class CoreDataManager{
         }
     }
     
-    func fetchTodoList() -> [Todo]?{
+    func fetchTodoList(offset: Int, limit: Int) -> [Todo]?{
         let request = Todo.fetchRequest()
+        
+        request.fetchOffset = offset
+        request.fetchLimit = limit
+        
         let sort = NSSortDescriptor(key: "createdDate", ascending: false)
         
         request.sortDescriptors = [sort]
