@@ -34,8 +34,19 @@ final class ViewController: UIViewController {
     
     func setupUI(){
         setupNavigation()
+        setupTodoData()
         setupTableView()
         setupTodoPlusButton()
+    }
+    
+    func setupTodoData(){
+        todoManager.setOffset(offset: 0)
+        todoManager.setLimit(limit: 10)
+        
+        todoManager.clearTodo()
+        guard let todos = todoManager.fetchTodos() else { return }
+        
+        todoManager.appendTodoList(todos: todos)
     }
     
     func setupNavigation(){
@@ -97,10 +108,7 @@ final class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let todoList = todoManager.fetchTodos() else {
-            tableView.setupEmptyView(message: "Your task list is empty.")
-            return 0
-        }
+        let todoList = todoManager.getTodoList()
         
         if todoList.count == 0 {
             tableView.setupEmptyView(message: "Your task list is empty.")
@@ -114,7 +122,7 @@ extension ViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCell", for: indexPath) as! TodoCell
         
-        guard let todoList = todoManager.fetchTodos() else { return cell }
+        let todoList = todoManager.getTodoList()
         
         let todo = todoList[indexPath.row]
         
@@ -135,7 +143,7 @@ extension ViewController: UITableViewDelegate{
         
         let deleteButton = UIContextualAction(style: .destructive, title: nil) { _, _, success in
             
-            guard let todos = self.todoManager.fetchTodos() else { return }
+            let todos = self.todoManager.getTodoList()
             
             let todo = todos[indexPath.row]
             
@@ -156,7 +164,7 @@ extension ViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = TodoDetailViewController()
         
-        guard let todoList = todoManager.fetchTodos() else { return }
+        let todoList = todoManager.getTodoList()
         let todo = todoList[indexPath.row]
         
         vc.setTodo(todo: todo)
@@ -164,12 +172,60 @@ extension ViewController: UITableViewDelegate{
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !todoManager.getIsDataEnded(){
+            
+            let offsetY = scrollView.contentOffset.y
+            let height = scrollView.contentSize.height
+            
+            if offsetY > height - scrollView.bounds.height {
+                
+                let limit = todoManager.getLimit()
+                let offset = todoManager.getOffset()
+                
+                let nextOffset = limit
+                let nextLimit = limit + 10
+                
+                todoManager.setOffset(offset: nextOffset)
+                todoManager.setLimit(limit: nextLimit)
+                
+                guard let todos = todoManager.fetchTodos() else { return }
+                
+                if todos.isEmpty {
+                    
+                    todoManager.setLimit(limit: limit)
+                    todoManager.setOffset(offset: offset)
+                    
+                    todoManager.setIsDataEnded(isDataEnded: true)
+                    
+                    return
+                }
+                
+                todoManager.appendTodoList(todos: todos)
+                
+                tableView.reloadData()
+                
+                todoManager.setIsDataEnded(isDataEnded: false)
+            }
+        }
+    }
 }
 
 // MARK: - TodoAddViewController Add Delegate
 extension ViewController: TodoAddDelegate{
     
     func saveSuccessTodo() {
+        todoManager.clearTodo()
+        
+        todoManager.setLimit(limit: 10)
+        todoManager.setOffset(offset: 0)
+        todoManager.setIsDataEnded(isDataEnded: false)
+        
+        guard let todos = todoManager.fetchTodos() else { return }
+        
+        todoManager.appendTodoList(todos: todos)
+        
         tableView.reloadData()
     }
 }
@@ -178,6 +234,16 @@ extension ViewController: TodoAddDelegate{
 extension ViewController: TodoEditDelegate{
     
     func editSuccessTodo(todo: Todo) {
+        todoManager.clearTodo()
+        
+        todoManager.setLimit(limit: 10)
+        todoManager.setOffset(offset: 0)
+        todoManager.setIsDataEnded(isDataEnded: false)
+        
+        guard let todos = todoManager.fetchTodos() else { return }
+        
+        todoManager.appendTodoList(todos: todos)
+        
         tableView.reloadData()
     }
 }
