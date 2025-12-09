@@ -40,10 +40,11 @@ final class ViewController: UIViewController {
     }
     
     func setupTodoData(){
+        todoManager.clearTodo()
+        
         todoManager.setOffset(offset: 0)
         todoManager.setLimit(limit: 10)
         
-        todoManager.clearTodo()
         guard let todos = todoManager.fetchTodos() else { return }
         
         todoManager.appendTodoList(todos: todos)
@@ -184,11 +185,10 @@ extension ViewController: UITableViewDelegate{
                 let limit = todoManager.getLimit()
                 let offset = todoManager.getOffset()
                 
-                let nextOffset = limit
-                let nextLimit = limit + 10
+                let nextOffset = offset + limit
                 
                 todoManager.setOffset(offset: nextOffset)
-                todoManager.setLimit(limit: nextLimit)
+                todoManager.setLimit(limit: limit)
                 
                 guard let todos = todoManager.fetchTodos() else { return }
                 
