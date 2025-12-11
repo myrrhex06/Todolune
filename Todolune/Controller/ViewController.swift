@@ -148,7 +148,12 @@ extension ViewController: UITableViewDelegate{
             
             let todo = todos[indexPath.row]
             
-            self.todoManager.deleteTodo(uuid: todo.todoId!)
+            guard let uuid = todo.todoId else { return }
+            
+            self.todoManager.deleteTodo(uuid: uuid)
+            var todoList = self.todoManager.getTodoList()
+            todoList.remove(atOffsets: [indexPath.row])
+            self.todoManager.setTodoList(todoList: todoList)
             
             self.tableView.beginUpdates()
             self.tableView.deleteRows(at: [indexPath], with: .fade)

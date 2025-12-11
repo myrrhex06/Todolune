@@ -48,6 +48,10 @@ final class TodoManager{
         todoList.append(contentsOf: todos)
     }
     
+    func setTodoList(todoList: [Todo]){
+        self.todoList = todoList
+    }
+    
     func getOffset() -> Int{
         return offset
     }
