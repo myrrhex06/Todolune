@@ -152,7 +152,7 @@ extension ViewController: UITableViewDelegate{
             
             self.todoManager.deleteTodo(uuid: uuid)
             var todoList = self.todoManager.getTodoList()
-            todoList.remove(atOffsets: [indexPath.row])
+            todoList.remove(at: indexPath.row)
             self.todoManager.setTodoList(todoList: todoList)
             
             self.tableView.beginUpdates()
