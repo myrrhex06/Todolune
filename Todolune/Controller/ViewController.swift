@@ -143,20 +143,37 @@ extension ViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteButton = UIContextualAction(style: .destructive, title: nil) { _, _, success in
+            var isInsert: Bool = false
             
-            let todos = self.todoManager.getTodoList()
+            var todos = self.todoManager.getTodoList()
             
             let todo = todos[indexPath.row]
             
             guard let uuid = todo.todoId else { return }
             
             self.todoManager.deleteTodo(uuid: uuid)
-            var todoList = self.todoManager.getTodoList()
-            todoList.remove(at: indexPath.row)
-            self.todoManager.setTodoList(todoList: todoList)
+            todos.remove(at: indexPath.row)
+            
+            guard let fetchTodoList = self.todoManager.fetchTodos() else { return }
+            
+            if !todos.contains(fetchTodoList){
+                let todo = fetchTodoList.filter {
+                    !todos.contains($0)
+                }
+                
+                todos.append(contentsOf: todo)
+                isInsert = true
+            }else{
+                isInsert = false
+            }
+            
+            self.todoManager.setTodoList(todoList: todos)
             
             self.tableView.beginUpdates()
             self.tableView.deleteRows(at: [indexPath], with: .fade)
+            if isInsert{
+                self.tableView.insertRows(at: [IndexPath(row: todos.count - 1, section: 0)], with: .none)
+            }
             self.tableView.endUpdates()
             
             success(true)
