@@ -169,12 +169,12 @@ extension ViewController: UITableViewDelegate{
             
             self.todoManager.setTodoList(todoList: todos)
             
-            self.tableView.beginUpdates()
-            self.tableView.deleteRows(at: [indexPath], with: .fade)
-            if isInsert{
-                self.tableView.insertRows(at: [IndexPath(row: todos.count - 1, section: 0)], with: .none)
+            self.tableView.performBatchUpdates {
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+                if isInsert{
+                    self.tableView.insertRows(at: [IndexPath(row: todos.count - 1, section: 0)], with: .none)
+                }
             }
-            self.tableView.endUpdates()
             
             success(true)
         }
