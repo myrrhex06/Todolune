@@ -1,6 +1,6 @@
 import UIKit
 
-class TodoCell: UITableViewCell {
+final class TodoCell: UITableViewCell {
     
     // MARK: - 완료 여부 체크박스
     private lazy var isCompletedCheckbox: UIButton = {

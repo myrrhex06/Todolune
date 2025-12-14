@@ -1,6 +1,6 @@
 import UIKit
 
-class UIVerticalAlignLabel: UILabel {
+final class UIVerticalAlignLabel: UILabel {
 
     enum VerticalAlignment {
         case top

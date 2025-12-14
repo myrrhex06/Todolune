@@ -1,6 +1,6 @@
 import UIKit
 
-class TodoDetailView: UIView {
+final class TodoDetailView: UIView {
     
     // MARK: - ScrollView
     private let scrollView: UIScrollView = {

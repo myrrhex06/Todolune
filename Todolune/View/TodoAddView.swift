@@ -1,6 +1,6 @@
 import UIKit
 
-class TodoAddView: UIView {
+final class TodoAddView: UIView {
     
     // MARK: - 할일 제목 최대 입력 가능 글자수 표시 Label
     private let displayTitleCountLabel: UILabel = {
