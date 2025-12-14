@@ -26,13 +26,13 @@ final class TodoDetailViewController: UIViewController {
         setupUI()
     }
     
-    func setupUI(){
+    private func setupUI(){
         detailView.addTarget(target: self, selector: #selector(touchUpCompletedButton))
         
         setNavigation()
     }
     
-    func setNavigation(){
+    private func setNavigation(){
         self.navigationItem.largeTitleDisplayMode = .never
         self.title = "Task Detail"
         
@@ -45,7 +45,7 @@ final class TodoDetailViewController: UIViewController {
         detailView.setTodoData(todo: todoDetailManager.getTodo())
     }
     
-    @objc func touchUpEditButton(){
+    @objc private func touchUpEditButton(){
         
         let todoEditVc = TodoAddEditViewController()
         
@@ -57,7 +57,7 @@ final class TodoDetailViewController: UIViewController {
         self.navigationController?.pushViewController(todoEditVc, animated: true)
     }
     
-    @objc func touchUpCompletedButton(){
+    @objc private func touchUpCompletedButton(){
         guard let todo = todoDetailManager.getTodo() else { return }
         
         todo.isCompleted.toggle()

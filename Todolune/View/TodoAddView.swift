@@ -143,7 +143,7 @@ final class TodoAddView: UIView {
         fatalError()
     }
     
-    func setupUI(){
+    private func setupUI(){
         self.backgroundColor = UIColor(named: "backgroundColor")
         
         self.addSubview(todoDescriptionStackView)
@@ -163,7 +163,7 @@ final class TodoAddView: UIView {
         }
     }
     
-    func setupIphoneSeTodoTitleStackView(){
+    private func setupIphoneSeTodoTitleStackView(){
         
         NSLayoutConstraint.activate([
             todoTitleStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -174,7 +174,7 @@ final class TodoAddView: UIView {
         ])
     }
     
-    func setupTodoTitleStackView(){
+    private func setupTodoTitleStackView(){
         
         NSLayoutConstraint.activate([
             todoTitleStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -185,7 +185,7 @@ final class TodoAddView: UIView {
         ])
     }
     
-    func setupIphoneSeTodoDescriptionStackView(){
+    private func setupIphoneSeTodoDescriptionStackView(){
         
         NSLayoutConstraint.activate([
             todoDescriptionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -196,7 +196,7 @@ final class TodoAddView: UIView {
         ])
     }
     
-    func setupTodoDescriptionStackView(){
+    private func setupTodoDescriptionStackView(){
         
         NSLayoutConstraint.activate([
             todoDescriptionStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -207,7 +207,7 @@ final class TodoAddView: UIView {
         ])
     }
     
-    func setupIphoneSeSubmitButton(){
+    private func setupIphoneSeSubmitButton(){
         
         
         NSLayoutConstraint.activate([
@@ -218,7 +218,7 @@ final class TodoAddView: UIView {
         ])
     }
     
-    func setupSubmitButton(){
+    private func setupSubmitButton(){
         
         NSLayoutConstraint.activate([
             submitButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -256,11 +256,11 @@ final class TodoAddView: UIView {
         titleCount = count
     }
     
-    func updateDescriptionCountLabel(){
+    private func updateDescriptionCountLabel(){
         displayDescriptionCountLabel.text = "\(descriptionCount ?? 0)/\(Constant.TODO_DESCRIPTION_MAX_LENGTH)"
     }
     
-    func updateTitleCountLabel(){
+    private func updateTitleCountLabel(){
         displayTitleCountLabel.text = "\(titleCount ?? 0)/\(Constant.TODO_TITLE_MAX_LENGTH)"
     }
     

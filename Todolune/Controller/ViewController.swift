@@ -32,14 +32,14 @@ final class ViewController: UIViewController {
         setupUI()
     }
     
-    func setupUI(){
+    private func setupUI(){
         setupNavigation()
         setupTodoData()
         setupTableView()
         setupTodoPlusButton()
     }
     
-    func setupTodoData(){
+    private func setupTodoData(){
         todoManager.clearTodo()
         
         todoManager.setOffset(offset: 0)
@@ -50,7 +50,7 @@ final class ViewController: UIViewController {
         todoManager.appendTodoList(todos: todos)
     }
     
-    func setupNavigation(){
+    private func setupNavigation(){
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
@@ -59,7 +59,7 @@ final class ViewController: UIViewController {
         self.title = "Todolune"
     }
     
-    func setupTableView(){
+    private func setupTableView(){
         self.view.addSubview(tableView)
         
         tableView.backgroundColor = UIColor(named: "backgroundColor")
@@ -83,7 +83,7 @@ final class ViewController: UIViewController {
         ])
     }
     
-    func setupTodoPlusButton(){
+    private func setupTodoPlusButton(){
         self.view.addSubview(todoPlusButton)
         
         NSLayoutConstraint.activate([
@@ -94,7 +94,7 @@ final class ViewController: UIViewController {
         ])
     }
     
-    @objc func todoPlusButtonTapped(){
+    @objc private func todoPlusButtonTapped(){
         let vc = TodoAddEditViewController()
         vc.addDelegate = self
         vc.editDelegate = self
