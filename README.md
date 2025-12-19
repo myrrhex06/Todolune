@@ -1,3 +1,9 @@
+# Todolune
+
+> 📝 Todolune - 할일 관리 앱
+
+<br>
+
 <img width="1960" height="960" alt="Image" src="https://github.com/user-attachments/assets/3dd56169-8c77-4326-8f59-76c7036787e9" />
 
 ## 🎯 Overview
@@ -6,8 +12,10 @@ Todolune는 UIKit 기반으로 구현한 할일 관리 앱입니다. <br>
 코드 베이스로 UI를 구현하였으며, CoreData를 활용하여 할일 등록, 조회, 수정, 삭제 기능을 구현하였습니다. <br>
 이를 통해 iOS 앱의 기본 구조와 화면 간 데이터 흐름을 이해하고, UIKit 기반 앱의 CRUD 구현 경험을 쌓았습니다. <br>
 
+- 플랫폼: iOS
 - 개발 기간: 2025.11.16 ~ 2025.12.15(30일)
 - 개발 인원: 1명
+- 기술 스택: UIKit, Core Data
 
 ## 📷 ScreenShot
 
