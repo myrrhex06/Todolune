@@ -13,7 +13,7 @@ Todolune는 UIKit 기반으로 구현한 할일 관리 앱입니다. <br>
 이를 통해 iOS 앱의 기본 구조와 화면 간 데이터 흐름을 이해하고, UIKit 기반 앱의 CRUD 구현 경험을 쌓았습니다. <br>
 
 - 플랫폼: iOS
-- 개발 기간: 2025.11.16 ~ 2025.12.15(30일)
+- 개발 기간: 2025.11.16 ~ 2026.01.06(52일)
 - 개발 인원: 1명
 - 기술 스택: UIKit, Core Data
 - App Store: [https://apps.apple.com/kr/app/todolune/id6757188137](https://apps.apple.com/kr/app/todolune/id6757188137)
