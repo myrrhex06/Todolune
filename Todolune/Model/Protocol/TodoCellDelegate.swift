@@ -1,5 +1,5 @@
 import UIKit
 
-protocol TodoCellDelegate{
+protocol TodoCellDelegate: AnyObject{
     func completedButtonTapped(cell: TodoCell)
 }

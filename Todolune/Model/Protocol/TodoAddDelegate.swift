@@ -1,5 +1,5 @@
 import Foundation
 
-protocol TodoAddDelegate{
+protocol TodoAddDelegate: AnyObject{
     func saveSuccessTodo()
 }
