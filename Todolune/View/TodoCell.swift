@@ -65,7 +65,7 @@ final class TodoCell: UITableViewCell {
     
     private var todo: Todo?
     
-    var delegate: TodoCellDelegate?
+    weak var delegate: TodoCellDelegate?
     
     // MARK: - UI 구성
     

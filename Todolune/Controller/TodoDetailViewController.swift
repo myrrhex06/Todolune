@@ -12,7 +12,7 @@ final class TodoDetailViewController: UIViewController {
     private let todoDetailManager = TodoDetailManager.shared
     
     // MARK: - Delegate
-    var editDelegate: TodoEditDelegate?
+    weak var editDelegate: TodoEditDelegate?
     
     // MARK: - UI 구성
     

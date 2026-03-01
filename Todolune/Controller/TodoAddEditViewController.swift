@@ -12,10 +12,10 @@ final class TodoAddEditViewController: UIViewController {
     private let todoAddEditManager = TodoAddEditManager.shared
     
     // MARK: - Delegate
-    var addDelegate: TodoAddDelegate?
+    weak var addDelegate: TodoAddDelegate?
     
     // MARK: - Delegate
-    var editDelegate: TodoEditDelegate?
+    weak var editDelegate: TodoEditDelegate?
     
     // MARK: - UI 구성
     override func loadView() {
